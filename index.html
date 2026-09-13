@@ -131,18 +131,46 @@
     .showcase-link.secondary{background:var(--bronze)}
     .showcase-note{max-width:1160px;margin:16px auto 0;color:rgba(255,255,255,.7);font-size:11px;text-align:center}
 
-    .health-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;padding:0 34px 34px}
-    .chart-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:300px;position:relative;overflow:hidden}
-    .chart-card h4{margin:0 0 4px;font-size:16px}.chart-card p{margin:0;color:var(--muted);font-size:13px}
-    .budget-chart{height:210px;position:relative;margin-top:22px;border-left:1px solid #c9c2b7;border-bottom:1px solid #c9c2b7}
-    .budget-chart .line{position:absolute;left:4%;right:3%;height:3px;transform-origin:left center;border-radius:5px}
-    .line.budget{background:var(--sage);bottom:34%;transform:rotate(-12deg)}
-    .line.ncd{background:#b35e50;bottom:23%;transform:rotate(-23deg)}
-    .dot{position:absolute;width:12px;height:12px;border-radius:50%;right:4%}
-    .dot.budget{background:var(--sage);bottom:51%}.dot.ncd{background:#b35e50;bottom:65%}
-    .chart-label{position:absolute;right:8%;font-size:12px;font-weight:800}
-    .chart-label.budget{bottom:43%;color:var(--sage)}.chart-label.ncd{bottom:71%;color:#b35e50}
-    .big-stat{display:flex;align-items:end;gap:8px;margin-top:26px}.big-stat strong{font-size:56px;line-height:1;color:var(--bronze)}.big-stat span{font-size:14px;color:var(--muted);padding-bottom:7px}
+    .health-story{padding:0 34px 34px}
+    .health-flowline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+    .health-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;position:relative}
+    .health-step:not(:last-child):after{content:"→";position:absolute;right:-12px;top:42%;font-size:20px;color:var(--bronze);font-weight:800;z-index:2}
+    .health-step b{display:block;color:var(--ink);font-size:13px;margin-bottom:6px}
+    .health-step span{font-size:11px;color:var(--muted);line-height:1.5}
+    .health-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .chart-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:285px;position:relative;overflow:hidden}
+    .chart-card h4{margin:0 0 5px;font-size:17px;color:var(--ink)}
+    .chart-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .health-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px}
+    .cost-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;align-items:end}
+    .cost-bar{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
+    .cost-bar .bar{width:58px;margin:0 auto 12px;border-radius:14px 14px 4px 4px}
+    .cost-bar.screening .bar{height:54px;background:#bfcac6}
+    .cost-bar.savings .bar{height:150px;background:var(--sage)}
+    .cost-bar strong{display:block;font-size:22px;color:var(--ink)}
+    .cost-bar span{font-size:11px;color:var(--muted)}
+    .sustainability-chart{height:185px;position:relative;margin-top:24px;border-left:1px solid #c9c2b7;border-bottom:1px solid #c9c2b7}
+    .sustainability-chart .budget-line,
+    .sustainability-chart .ncd-line{position:absolute;left:6%;right:4%;height:4px;transform-origin:left center;border-radius:6px}
+    .sustainability-chart .budget-line{background:var(--sage);bottom:34%;transform:rotate(-14deg)}
+    .sustainability-chart .ncd-line{background:#b35e50;bottom:15%;transform:rotate(-29deg)}
+    .sustainability-chart .marker{position:absolute;right:3%;width:12px;height:12px;border-radius:50%}
+    .sustainability-chart .marker.budget{background:var(--sage);bottom:51%}
+    .sustainability-chart .marker.ncd{background:#b35e50;bottom:68%}
+    .sustainability-chart .label{position:absolute;right:8%;font-size:11px;font-weight:800;background:rgba(247,244,238,.9);padding:2px 5px;border-radius:6px}
+    .sustainability-chart .label.budget{bottom:42%;color:var(--sage)}
+    .sustainability-chart .label.ncd{bottom:73%;color:#b35e50}
+    .pressure-stat{display:flex;align-items:end;gap:10px;margin-top:16px}
+    .pressure-stat strong{font-size:48px;line-height:1;color:var(--bronze)}
+    .pressure-stat span{font-size:12px;color:var(--muted);padding-bottom:5px}
+    .dept-bars{margin-top:22px;display:grid;gap:11px}
+    .dept-row{display:grid;grid-template-columns:115px 1fr;gap:10px;align-items:center}
+    .dept-row span{font-size:11px;color:var(--muted)}
+    .dept-track{height:12px;background:#e8e3da;border-radius:999px;overflow:hidden}
+    .dept-fill{height:100%;background:linear-gradient(90deg,var(--bronze),#c99a70);border-radius:999px}
+    .insight-box{margin-top:20px;padding:18px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+    .insight-box strong{display:block;color:var(--ink);font-size:14px;margin-bottom:7px}
+    .insight-box span{font-size:12px;color:var(--muted);line-height:1.6}
 
     .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0 34px 34px}
     .flow-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:128px;position:relative}
@@ -157,7 +185,7 @@
     .note{max-width:1240px;margin:0 auto 40px;padding:0 28px;color:var(--muted);font-size:12px;text-align:center}
 
     @media (max-width:900px){
-      .hero,.project-top,.health-grid,.about-grid{grid-template-columns:1fr}
+      .hero,.project-top,.health-grid,.about-grid{grid-template-columns:1fr}\n      .health-flowline{grid-template-columns:1fr 1fr}\n      .health-step:after{display:none}
       .hero-panel{min-height:420px}
       .tools{grid-template-columns:1fr 1fr}
       .flow{grid-template-columns:1fr 1fr}
@@ -166,7 +194,7 @@
       .contact{grid-template-columns:1fr}.contact-links{justify-content:flex-start}
     }
     @media (max-width:560px){
-      .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow{grid-template-columns:1fr}
+      .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow,.health-flowline{grid-template-columns:1fr}
       .section{padding-top:56px;padding-bottom:56px}
     }
   
@@ -317,7 +345,7 @@
           <h4>Prefer working in Excel?</h4>
           <p>The same synthetic dataset is also available through an Excel-based reporting dashboard with KPI summaries, track and monthly views, a calendar-style timeline, master data, and regional drill-down sheets.</p>
           <div class="excel-actions">
-            <a class="showcase-link secondary" href="assets/synthetic_regional_dashboard.xlsx" download>Download Excel Dashboard ↓</a>
+            <a class="showcase-link secondary" href="assets/.xlsx" download>Download Excel Dashboard ↓</a>
           </div>
         </div>
       </div>
@@ -326,35 +354,126 @@
     <article class="project">
       <div class="project-top">
         <div>
-          <div class="project-no">Project 02 · Analytical Research</div>
-          <h3>Healthcare Sustainability & Early Detection Analysis</h3>
-          <p>Analyzed Saudi healthcare open data alongside published research to examine the long-term financial burden of chronic disease and the potential economic value of earlier intervention. The project used historical budget trends and CAGR-based scenario projection—not machine-learning forecasting—to frame the sustainability challenge.</p>
+          <div class="project-no">Project 02 · Healthcare Analytics</div>
+          <h3>The Economics of Early Detection</h3>
+          <p>Chronic Disease Burden & Healthcare Sustainability in Saudi Arabia. This capstone combined Saudi Ministry of Health open data with published scientific literature to examine how chronic disease—particularly diabetes and its complications—can create long-term financial pressure, and where earlier detection and prevention could reduce downstream treatment costs.</p>
           <div class="tags">
-            <span class="tag">Open Data</span><span class="tag">Research Synthesis</span><span class="tag">CAGR Projection</span><span class="tag">Data Visualization</span><span class="tag">Strategic Insights</span>
+            <span class="tag">Saudi MoH Open Data</span>
+            <span class="tag">Scientific Literature</span>
+            <span class="tag">Python</span>
+            <span class="tag">CAGR Projection</span>
+            <span class="tag">Economic Analysis</span>
+            <span class="tag">Data Visualization</span>
           </div>
         </div>
         <div class="project-side">
-          <div class="mini"><strong>~87%</strong><span>Scenario share of projected 2030 MoH budget potentially consumed by NCD burden</span></div>
-          <div class="mini"><strong>~SAR 1.17B</strong><span>Potential treatment savings in the analyzed scenario</span></div>
-          <div class="mini"><strong>Public</strong><span>Saudi Ministry of Health open data</span></div>
-          <div class="mini"><strong>Evidence</strong><span>Integrated published research estimates</span></div>
+          <div class="mini"><strong>~87%</strong><span>Illustrative 2030 scenario: NCD burden as a share of projected MoH budget</span></div>
+          <div class="mini"><strong>~SAR 1.17B</strong><span>Potential downstream treatment savings in the analyzed scenario</span></div>
+          <div class="mini"><strong>~SAR 0.15B</strong><span>Estimated screening-program cost used in the scenario comparison</span></div>
+          <div class="mini"><strong>Public + Research</strong><span>Open government data combined with published evidence</span></div>
         </div>
       </div>
-      <div class="health-grid">
-        <div class="chart-card">
-          <h4>Budget vs. Chronic Disease Cost Burden</h4>
-          <p>Scenario comparison based on historical budget growth and published economic-burden estimates.</p>
-          <div class="budget-chart">
-            <div class="line budget"></div><div class="line ncd"></div>
-            <div class="dot budget"></div><div class="dot ncd"></div>
-            <div class="chart-label budget">Projected MoH budget</div>
-            <div class="chart-label ncd">NCD cost burden</div>
+
+      <div class="health-story">
+        <div class="health-flowline">
+          <div class="health-step">
+            <b>01 · Chronic Disease Burden</b>
+            <span>Long-term disease burden creates both direct healthcare costs and wider economic pressure.</span>
+          </div>
+          <div class="health-step">
+            <b>02 · Earlier Detection</b>
+            <span>Screening can identify risk earlier, before costly complications develop.</span>
+          </div>
+          <div class="health-step">
+            <b>03 · Fewer Complications</b>
+            <span>Preventing or delaying progression can reduce treatment needs across hospital departments.</span>
+          </div>
+          <div class="health-step">
+            <b>04 · Better Sustainability</b>
+            <span>Lower downstream costs can help protect long-term healthcare financial sustainability.</span>
           </div>
         </div>
-        <div class="chart-card">
-          <h4>Why early detection matters</h4>
-          <p>Preventing or delaying diabetes progression can reduce downstream complications and the associated costs across multiple hospital departments.</p>
-          <div class="big-stat"><strong>87%</strong><span>potential budget pressure by 2030 in the analyzed scenario</span></div>
+
+        <div class="health-grid">
+
+          <div class="chart-card">
+            <div class="health-kicker">1 · Economic Feasibility</div>
+            <h4>Cost of Screening vs. Potential Treatment Savings</h4>
+            <p>The analysis compared an estimated screening-program cost with potential downstream treatment savings from reducing diabetes-related complications.</p>
+
+            <div class="cost-compare">
+              <div class="cost-bar screening">
+                <div class="bar"></div>
+                <strong>~SAR 0.15B</strong>
+                <span>Estimated screening cost</span>
+              </div>
+              <div class="cost-bar savings">
+                <div class="bar"></div>
+                <strong>~SAR 1.17B</strong>
+                <span>Potential treatment savings</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="health-kicker">2 · Sustainability Challenge</div>
+            <h4>Projected MoH Budget vs. NCD Cost Burden</h4>
+            <p>Historical Ministry of Health budget data was used to calculate CAGR and project the budget to 2030. Published NCD burden estimates were then compared against that projected budget.</p>
+
+            <div class="sustainability-chart">
+              <div class="budget-line"></div>
+              <div class="ncd-line"></div>
+              <div class="marker budget"></div>
+              <div class="marker ncd"></div>
+              <div class="label budget">Projected MoH budget</div>
+              <div class="label ncd">NCD cost burden</div>
+            </div>
+
+            <div class="pressure-stat">
+              <strong>~87%</strong>
+              <span>of the projected 2030 MoH budget could be consumed by NCD costs in the analyzed scenario.</span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="health-kicker">3 · Downstream Cost Impact</div>
+            <h4>Where Savings Could Materialize</h4>
+            <p>Diabetes complications generate costs across multiple hospital departments. Addressing the underlying disease earlier could reduce downstream complications and associated treatment costs.</p>
+
+            <div class="dept-bars">
+              <div class="dept-row"><span>Cardiology</span><div class="dept-track"><div class="dept-fill" style="width:86%"></div></div></div>
+              <div class="dept-row"><span>Nephrology</span><div class="dept-track"><div class="dept-fill" style="width:72%"></div></div></div>
+              <div class="dept-row"><span>Ophthalmology</span><div class="dept-track"><div class="dept-fill" style="width:58%"></div></div></div>
+              <div class="dept-row"><span>Vascular / Foot Care</span><div class="dept-track"><div class="dept-fill" style="width:48%"></div></div></div>
+            </div>
+
+            <div class="insight-box">
+              <strong>Core insight</strong>
+              <span>The value of prevention is not limited to one department. Reducing diabetes progression can lower the need for treatment across several downstream clinical services.</span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="health-kicker">4 · Analytical Approach</div>
+            <h4>How the Analysis Was Built</h4>
+            <p>The project combined open datasets and research evidence rather than relying on a single source or a predictive machine-learning model.</p>
+
+            <div class="insight-box">
+              <strong>Data</strong>
+              <span>Saudi Ministry of Health open data and historical budget information.</span>
+            </div>
+
+            <div class="insight-box">
+              <strong>Research</strong>
+              <span>Published scientific literature was used for chronic disease economic-burden estimates.</span>
+            </div>
+
+            <div class="insight-box">
+              <strong>Projection</strong>
+              <span>CAGR was calculated from historical budget trends and applied as a continuation-of-trend scenario through 2030.</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </article>
