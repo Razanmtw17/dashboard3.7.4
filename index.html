@@ -2,523 +2,2951 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#17365D" />
+
   <title>Razan Altowairqi | Data Analytics Portfolio</title>
-  <meta name="description" content="Data analytics, automation, and reporting portfolio by Razan Altowairqi." />
+
+  <meta
+    name="description"
+    content="Data analytics, dashboarding, reporting, and automation portfolio by Razan Altowairqi."
+  />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <style>
     :root{
-      --ink:#10222b;
-      --ink-2:#21343d;
-      --muted:#687980;
-      --paper:#f7f4ee;
-      --paper-2:#efe9df;
-      --card:#fffdfa;
-      --line:#d9d2c6;
-      --bronze:#a87442;
-      --bronze-2:#c99b68;
-      --sage:#768f83;
-      --sage-soft:#dce4df;
-      --navy:#173847;
-      --white:#ffffff;
-      --shadow:0 18px 55px rgba(16,34,43,.10);
+      --navy:#17365D;
+      --navy2:#244A6B;
+      --sage:#2E7D72;
+      --bronze:#B47B4F;
+      --paper:#FBF9F5;
+      --ivory:#F3F0E9;
+      --white:#FFFFFF;
+      --ink:#243746;
+      --muted:#6B7785;
+      --line:#DDD6CB;
+      --soft:#E8EFED;
+
+      --shadow:
+        0 14px 38px rgba(23,54,93,.09);
+
+      --radius:22px;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+
     body{
       margin:0;
-      background:var(--paper);
+      overflow-x:hidden;
+      background:var(--ivory);
       color:var(--ink);
-      font-family:"Manrope",sans-serif;
-      line-height:1.6;
+      font-family:"Manrope",Arial,sans-serif;
+      line-height:1.55;
+      -webkit-text-size-adjust:100%;
     }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+      height:auto;
+    }
+
+    button,
+    a{
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    /* =========================
+       NAVIGATION
+    ========================= */
 
     .nav{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:blur(14px);
-      background:rgba(247,244,238,.88);
-      border-bottom:1px solid rgba(217,210,198,.8);
+      position:sticky;
+      top:0;
+      z-index:100;
+
+      border-bottom:
+        1px solid rgba(221,214,203,.92);
+
+      background:
+        rgba(243,240,233,.94);
+
+      backdrop-filter:blur(12px);
     }
+
     .nav-inner{
-      max-width:1240px;margin:auto;padding:16px 28px;
-      display:flex;align-items:center;justify-content:space-between;gap:20px;
+      width:min(
+        1180px,
+        calc(100% - 40px)
+      );
+
+      margin:auto;
+      padding:14px 0;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
     }
-    .brand{font-weight:800;letter-spacing:.02em}
-    .brand span{color:var(--bronze)}
-    .nav-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-    .nav-links a:hover{color:var(--ink)}
+
+    .brand{
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.04em;
+      color:var(--navy);
+    }
+
+    .brand span{
+      color:var(--bronze);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:22px;
+
+      font-size:13px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .nav-links a:hover{
+      color:var(--navy);
+    }
+
+    /* =========================
+       GLOBAL
+    ========================= */
+
+    .wrap{
+      width:min(
+        1180px,
+        calc(100% - 40px)
+      );
+
+      margin:auto;
+    }
+
+    .kicker,
+    .eyebrow{
+      font-size:11px;
+
+      color:var(--bronze);
+      font-weight:800;
+
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p{
+      margin:0;
+    }
+
+    h1,
+    h2,
+    h3{
+      font-family:
+        "Playfair Display",
+        serif;
+
+      color:var(--navy);
+    }
+
+    h1{
+      font-size:
+        clamp(
+          46px,
+          6.5vw,
+          82px
+        );
+
+      line-height:1.01;
+      letter-spacing:-.025em;
+    }
+
+    h2{
+      font-size:
+        clamp(
+          34px,
+          4.6vw,
+          52px
+        );
+
+      line-height:1.05;
+      letter-spacing:-.02em;
+    }
+
+    h3{
+      font-size:
+        clamp(
+          28px,
+          3.2vw,
+          40px
+        );
+
+      line-height:1.08;
+    }
+
+    p{
+      color:var(--muted);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+
+      min-height:44px;
+
+      padding:
+        11px
+        16px;
+
+      border-radius:10px;
+
+      background:var(--navy);
+      color:white;
+
+      font-size:13px;
+      font-weight:800;
+
+      border:
+        1px solid
+        var(--navy);
+
+      transition:.2s ease;
+    }
+
+    .btn.secondary{
+      background:var(--sage);
+      border-color:var(--sage);
+    }
+
+    .btn.ghost{
+      background:white;
+      color:var(--navy);
+      border-color:var(--line);
+    }
+
+    .btn:hover{
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 8px 18px
+        rgba(23,54,93,.12);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
 
     .hero{
-      max-width:1240px;margin:auto;padding:86px 28px 56px;
-      display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center;
-    }
-    .eyebrow{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--bronze)}
-    h1{
-      font-family:"Playfair Display",serif;
-      font-size:clamp(48px,7vw,92px);
-      line-height:.96;margin:14px 0 22px;letter-spacing:-.025em;
-    }
-    .hero p{font-size:19px;color:var(--muted);max-width:760px}
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      padding:13px 20px;border-radius:999px;border:1px solid var(--ink);
-      font-size:14px;font-weight:800;transition:.2s ease;
-    }
-    .btn.primary{background:var(--ink);color:var(--white)}
-    .btn:hover{transform:translateY(-2px)}
+      width:min(
+        1180px,
+        calc(100% - 40px)
+      );
 
-    .hero-panel{
-      position:relative;min-height:500px;border-radius:32px;overflow:hidden;
-      background:linear-gradient(160deg,var(--navy),#0d242e 70%);
-      box-shadow:var(--shadow);padding:34px;color:white;
-    }
-    .hero-panel:before{
-      content:"";position:absolute;width:320px;height:320px;border-radius:50%;
-      border:1px solid rgba(255,255,255,.12);right:-100px;top:-80px;
-      box-shadow:0 0 0 50px rgba(255,255,255,.03),0 0 0 105px rgba(255,255,255,.02);
-    }
-    .panel-kicker{font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:.16em}
-    .panel-title{font-family:"Playfair Display",serif;font-size:34px;line-height:1.08;margin:14px 0 32px;max-width:360px}
-    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:absolute;left:34px;right:34px;bottom:34px}
-    .metric{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px}
-    .metric strong{display:block;font-size:25px}.metric span{font-size:12px;opacity:.72}
+      margin:auto;
 
-    .section{max-width:1240px;margin:auto;padding:78px 28px}
-    .section-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:34px}
-    .section-head h2{font-family:"Playfair Display",serif;font-size:44px;line-height:1.05;margin:0}
-    .section-head p{margin:0;color:var(--muted);max-width:600px}
+      padding:
+        76px 0
+        64px;
 
-    .about-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:22px}
-    .about-card,.tool-card,.project-card,.insight-card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 10px 30px rgba(16,34,43,.05)}
-    .about-card{padding:30px}
-    .about-card h3{margin:0 0 12px;font-size:18px}
-    .about-card p{color:var(--muted);margin:0}
-    .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .tool-card{padding:22px}
-    .tool-card b{display:block;margin-bottom:6px}.tool-card span{color:var(--muted);font-size:13px}
+      display:grid;
+
+      grid-template-columns:
+        1.12fr
+        .88fr;
+
+      gap:42px;
+
+      align-items:center;
+    }
+
+    .hero-copy .line{
+      width:90px;
+      height:5px;
+
+      background:
+        var(--bronze);
+
+      border-radius:8px;
+
+      margin:
+        22px 0;
+    }
+
+    .hero-copy .sub{
+      font-size:17px;
+
+      max-width:700px;
+
+      color:#526272;
+    }
+
+    .tags{
+      display:flex;
+
+      gap:7px;
+
+      flex-wrap:wrap;
+
+      margin-top:18px;
+    }
+
+    .tag{
+      padding:
+        6px 10px;
+
+      border-radius:999px;
+
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      font-size:11px;
+
+      color:var(--navy);
+
+      font-weight:700;
+    }
+
+    .hero-actions{
+      display:flex;
+
+      gap:10px;
+
+      flex-wrap:wrap;
+
+      margin-top:24px;
+    }
+
+    .hero-card{
+      background:var(--navy);
+
+      border-radius:28px;
+
+      padding:30px;
+
+      color:#fff;
+
+      min-height:430px;
+
+      position:relative;
+      overflow:hidden;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .hero-card:after{
+      content:"";
+
+      position:absolute;
+
+      width:360px;
+      height:360px;
+
+      border-radius:50%;
+
+      background:
+        rgba(255,255,255,.05);
+
+      right:-120px;
+      bottom:-120px;
+    }
+
+    .hero-card .label{
+      font-size:10px;
+      opacity:.7;
+
+      letter-spacing:.15em;
+
+      text-transform:uppercase;
+    }
+
+    .hero-card .big{
+      font-size:28px;
+      font-weight:800;
+
+      line-height:1.22;
+
+      margin-top:16px;
+
+      max-width:390px;
+
+      position:relative;
+      z-index:1;
+    }
+
+    .mini-grid{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap:12px;
+
+      margin-top:28px;
+
+      position:relative;
+      z-index:1;
+    }
+
+    .hero-mini{
+      border:
+        1px solid
+        rgba(255,255,255,.18);
+
+      border-radius:15px;
+
+      padding:16px;
+
+      background:
+        rgba(255,255,255,.035);
+    }
+
+    .hero-mini b{
+      display:block;
+
+      font-size:18px;
+
+      margin-bottom:4px;
+    }
+
+    .hero-mini span{
+      font-size:10px;
+
+      opacity:.76;
+
+      line-height:1.4;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    .section{
+      padding:72px 0;
+    }
+
+    .section-topline{
+      display:flex;
+
+      align-items:center;
+      justify-content:space-between;
+
+      margin-bottom:10px;
+    }
+
+    .section-brand{
+      font-size:11px;
+
+      font-weight:800;
+
+      color:var(--navy);
+
+      letter-spacing:.04em;
+    }
+
+    .section-no{
+      font-size:10px;
+
+      color:var(--muted);
+    }
+
+    .section-head{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        .8fr;
+
+      gap:34px;
+
+      align-items:end;
+
+      margin-bottom:26px;
+    }
+
+    .section-head p{
+      font-size:14px;
+
+      max-width:620px;
+    }
+
+    .card{
+      background:var(--paper);
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:18px;
+
+      padding:20px;
+
+      box-shadow:
+        0 10px 28px
+        rgba(23,54,93,.05);
+    }
+
+    /* =========================
+       PROFILE
+    ========================= */
+
+    .profile-grid{
+      display:grid;
+
+      grid-template-columns:
+        .9fr
+        1.1fr;
+
+      gap:20px;
+    }
+
+    .profile-box h3{
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size:17px;
+
+      color:var(--navy);
+
+      margin-bottom:10px;
+    }
+
+    .profile-box p{
+      font-size:13px;
+    }
+
+    .mini-flow{
+      display:flex;
+
+      gap:7px;
+
+      align-items:center;
+
+      flex-wrap:wrap;
+
+      margin-top:18px;
+    }
+
+    .mini-flow span{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      padding:
+        7px 10px;
+
+      border-radius:10px;
+
+      font-size:10px;
+
+      color:var(--navy);
+
+      font-weight:700;
+    }
+
+    .mini-flow i{
+      font-style:normal;
+
+      color:var(--bronze);
+
+      font-weight:800;
+    }
+
+    .tool-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:10px;
+    }
+
+    .tool{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:15px;
+
+      padding:15px;
+    }
+
+    .tool b{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:13px;
+
+      margin-bottom:4px;
+    }
+
+    .tool span{
+      font-size:10.5px;
+
+      color:var(--muted);
+
+      line-height:1.4;
+    }
+
+    /* =========================
+       PROJECTS
+    ========================= */
 
     .project{
-      background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;
-      box-shadow:var(--shadow);margin-bottom:34px;
+      padding:72px 0;
+
+      border-top:
+        1px solid
+        var(--line);
     }
-    .project-top{padding:34px;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
-    .project-no{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--bronze);text-transform:uppercase}
-    .project h3{font-family:"Playfair Display",serif;font-size:38px;margin:7px 0 14px;line-height:1.08}
-    .project p{color:var(--muted)}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-    .tag{font-size:12px;font-weight:700;padding:7px 10px;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
-    .project-side{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .project-side .mini{padding:18px;border-radius:18px;background:var(--paper);border:1px solid var(--line)}
-    .mini strong{display:block;font-size:22px}.mini span{font-size:12px;color:var(--muted)}
 
-    .showcase-shell{background:#0f2530;padding:28px;border-top:1px solid #163541}
-    .showcase-grid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
-    .showcase-card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 16px 42px rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.08)}
-    .showcase-image{position:relative;background:#e8edf0;aspect-ratio:16/9;overflow:hidden}
-    .showcase-image img{width:100%;height:100%;object-fit:cover;object-position:top center}
-    .showcase-badge{position:absolute;top:14px;left:14px;padding:7px 10px;border-radius:999px;background:rgba(15,37,48,.88);color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
-    .showcase-body{padding:22px}
-    .showcase-kicker{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px}
-    .showcase-body h4{font-family:"Playfair Display",serif;font-size:25px;line-height:1.1;margin:0 0 10px;color:var(--ink)}
-    .showcase-body p{font-size:13px;margin:0 0 18px;color:var(--muted)}
-    .showcase-link{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:800}
-    .showcase-link.secondary{background:var(--bronze)}
-    .showcase-note{max-width:1160px;margin:16px auto 0;color:rgba(255,255,255,.7);font-size:11px;text-align:center}
+    .project-head{
+      display:grid;
 
-    .health-story{padding:0 34px 34px}
-    .health-flowline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-    .health-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;position:relative}
-    .health-step:not(:last-child):after{content:"→";position:absolute;right:-12px;top:42%;font-size:20px;color:var(--bronze);font-weight:800;z-index:2}
-    .health-step b{display:block;color:var(--ink);font-size:13px;margin-bottom:6px}
-    .health-step span{font-size:11px;color:var(--muted);line-height:1.5}
-    .health-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .chart-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:285px;position:relative;overflow:hidden}
-    .chart-card h4{margin:0 0 5px;font-size:17px;color:var(--ink)}
-    .chart-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
-    .health-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px}
-    .cost-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;align-items:end}
-    .cost-bar{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
-    .cost-bar .bar{width:58px;margin:0 auto 12px;border-radius:14px 14px 4px 4px}
-    .cost-bar.screening .bar{height:54px;background:#bfcac6}
-    .cost-bar.savings .bar{height:150px;background:var(--sage)}
-    .cost-bar strong{display:block;font-size:22px;color:var(--ink)}
-    .cost-bar span{font-size:11px;color:var(--muted)}
-    .sustainability-chart{height:185px;position:relative;margin-top:24px;border-left:1px solid #c9c2b7;border-bottom:1px solid #c9c2b7}
-    .sustainability-chart .budget-line,
-    .sustainability-chart .ncd-line{position:absolute;left:6%;right:4%;height:4px;transform-origin:left center;border-radius:6px}
-    .sustainability-chart .budget-line{background:var(--sage);bottom:34%;transform:rotate(-14deg)}
-    .sustainability-chart .ncd-line{background:#b35e50;bottom:15%;transform:rotate(-29deg)}
-    .sustainability-chart .marker{position:absolute;right:3%;width:12px;height:12px;border-radius:50%}
-    .sustainability-chart .marker.budget{background:var(--sage);bottom:51%}
-    .sustainability-chart .marker.ncd{background:#b35e50;bottom:68%}
-    .sustainability-chart .label{position:absolute;right:8%;font-size:11px;font-weight:800;background:rgba(247,244,238,.9);padding:2px 5px;border-radius:6px}
-    .sustainability-chart .label.budget{bottom:42%;color:var(--sage)}
-    .sustainability-chart .label.ncd{bottom:73%;color:#b35e50}
-    .pressure-stat{display:flex;align-items:end;gap:10px;margin-top:16px}
-    .pressure-stat strong{font-size:48px;line-height:1;color:var(--bronze)}
-    .pressure-stat span{font-size:12px;color:var(--muted);padding-bottom:5px}
-    .dept-bars{margin-top:22px;display:grid;gap:11px}
-    .dept-row{display:grid;grid-template-columns:115px 1fr;gap:10px;align-items:center}
-    .dept-row span{font-size:11px;color:var(--muted)}
-    .dept-track{height:12px;background:#e8e3da;border-radius:999px;overflow:hidden}
-    .dept-fill{height:100%;background:linear-gradient(90deg,var(--bronze),#c99a70);border-radius:999px}
-    .insight-box{margin-top:20px;padding:18px;border-radius:16px;background:#fff;border:1px solid var(--line)}
-    .insight-box strong{display:block;color:var(--ink);font-size:14px;margin-bottom:7px}
-    .insight-box span{font-size:12px;color:var(--muted);line-height:1.6}
+      grid-template-columns:
+        1.2fr
+        .8fr;
 
-    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0 34px 34px}
-    .flow-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:128px;position:relative}
-    .flow-step:not(:last-child):after{content:"→";position:absolute;right:-11px;top:44%;font-size:20px;color:var(--bronze);z-index:2}
-    .flow-step b{display:block;font-size:14px;margin-bottom:8px}.flow-step span{font-size:12px;color:var(--muted)}
+      gap:22px;
 
-    .contact{background:var(--ink);color:white;border-radius:32px;padding:42px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-    .contact h2{font-family:"Playfair Display",serif;font-size:42px;margin:0 0 8px}.contact p{opacity:.72;margin:0}
-    .contact-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .contact-links a{border:1px solid rgba(255,255,255,.25);padding:11px 16px;border-radius:999px;font-size:13px;font-weight:800}
-
-    .note{max-width:1240px;margin:0 auto 40px;padding:0 28px;color:var(--muted);font-size:12px;text-align:center}
-
-    @media (max-width:900px){
-      .hero,.project-top,.health-grid,.about-grid{grid-template-columns:1fr}\n      .health-flowline{grid-template-columns:1fr 1fr}\n      .health-step:after{display:none}
-      .hero-panel{min-height:420px}
-      .tools{grid-template-columns:1fr 1fr}
-      .flow{grid-template-columns:1fr 1fr}
-      .flow-step:after{display:none}
-      .showcase-grid{grid-template-columns:1fr}
-      .contact{grid-template-columns:1fr}.contact-links{justify-content:flex-start}
+      align-items:start;
     }
-    @media (max-width:560px){
-      .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow,.health-flowline{grid-template-columns:1fr}
-      .section{padding-top:56px;padding-bottom:56px}
+
+    .project-title p{
+      font-size:13px;
+
+      margin-top:10px;
+
+      max-width:730px;
     }
-  
-    .live-dashboard-shell{
-      margin:0 34px 24px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
+
+    .metrics{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap:10px;
+    }
+
+    .metric{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:14px;
+
+      padding:14px;
+    }
+
+    .metric strong{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:19px;
+
+      line-height:1.1;
+    }
+
+    .metric span{
+      display:block;
+
+      font-size:9.5px;
+
+      color:var(--muted);
+
+      line-height:1.35;
+
+      margin-top:4px;
+    }
+
+    /* =========================
+       PROJECT 01
+    ========================= */
+
+    .dashboard-box{
+      margin-top:20px;
+
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:20px;
+
+      padding:14px;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .dashboard-head{
+      display:flex;
+
+      align-items:center;
+      justify-content:space-between;
+
+      gap:16px;
+
+      margin-bottom:12px;
+    }
+
+    .dashboard-head h4{
+      font-size:16px;
+
+      color:var(--navy);
+
+      margin-top:3px;
+    }
+
+    .dashboard-head p{
+      font-size:11px;
+
+      margin-top:4px;
+    }
+
+    .live-frame{
+      width:100%;
+
+      height:700px;
+
+      border:0;
+
+      border-radius:14px;
+
+      background:#eef2f5;
+
+      display:block;
+    }
+
+    .mobile-dashboard{
+      display:none;
+    }
+
+    .mobile-dashboard img{
+      width:100%;
+
+      border-radius:13px;
+
+      background:#eef2f5;
+
+      aspect-ratio:16/9;
+
+      object-fit:contain;
+    }
+
+    .mobile-dashboard .actions{
+      display:flex;
+
+      gap:8px;
+
+      flex-wrap:wrap;
+
+      margin-top:12px;
+    }
+
+    .excel-grid{
+      display:grid;
+
+      grid-template-columns:
+        1.25fr
+        .75fr;
+
+      gap:20px;
+
+      margin-top:18px;
+
+      align-items:stretch;
+    }
+
+    .excel-shot{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:18px;
+
+      padding:12px;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .excel-shot img{
+      width:100%;
+      height:100%;
+
+      max-height:520px;
+
+      object-fit:contain;
+
+      border-radius:12px;
+    }
+
+    .excel-side{
+      display:flex;
+
+      flex-direction:column;
+
+      gap:10px;
+    }
+
+    .excel-side .card{
+      box-shadow:none;
+    }
+
+    .excel-side h4{
+      font-size:22px;
+
+      color:var(--navy);
+
+      font-family:
+        "Playfair Display",
+        serif;
+    }
+
+    .excel-side p{
+      font-size:12px;
+
+      margin-top:7px;
+    }
+
+    .excel-side .btn{
+      margin-top:auto;
+
+      align-self:flex-start;
+    }
+
+    /* =========================
+       HEALTH
+    ========================= */
+
+    .health-flow{
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:9px;
+
+      margin-top:18px;
+    }
+
+    .hstep{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:14px;
+
+      padding:13px;
+    }
+
+    .hstep b{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+
+      margin-bottom:5px;
+    }
+
+    .hstep span{
+      font-size:9.5px;
+
+      color:var(--muted);
+
+      line-height:1.4;
+    }
+
+    .health-grid{
+      display:grid;
+
+      grid-template-columns:
+        .82fr
+        1.18fr;
+
+      gap:14px;
+
+      margin-top:14px;
+    }
+
+    .hcard{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:18px;
+
       padding:18px;
-      box-shadow:0 10px 30px rgba(16,34,43,.06);
     }
-    .live-dashboard-head{
-      display:flex;justify-content:space-between;gap:18px;align-items:center;
-      margin-bottom:14px;flex-wrap:wrap;
+
+    .hcard h4{
+      font-size:17px;
+
+      color:var(--navy);
+
+      margin-top:3px;
     }
-    .live-dashboard-head h4{margin:0;font-size:20px;color:var(--ink)}
-    .live-dashboard-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
-    .live-dashboard-frame{
-      width:100%;height:760px;border:0;border-radius:18px;background:#eef2f5;display:block;
+
+    .hcard p{
+      font-size:11px;
+
+      margin-top:6px;
     }
-    .excel-block{
-      margin:0 34px 34px;
-      display:grid;grid-template-columns:1.15fr .85fr;gap:22px;
-      background:var(--card);border:1px solid var(--line);border-radius:24px;
-      padding:22px;box-shadow:0 10px 30px rgba(16,34,43,.06);align-items:center;
+
+    .cost-bars{
+      display:flex;
+
+      gap:20px;
+
+      align-items:flex-end;
+
+      justify-content:center;
+
+      margin-top:22px;
     }
-    .excel-preview{overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#fff}
-    .excel-preview img{width:100%;height:auto;display:block}
-    .excel-copy .showcase-kicker{margin-bottom:6px}
-    .excel-copy h4{font-size:24px;margin:0 0 10px}
-    .excel-copy p{color:var(--muted);margin:0 0 18px}
-    .excel-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+    .cost{
+      width:145px;
+
+      text-align:center;
+    }
+
+    .bar{
+      width:55px;
+
+      margin:
+        0 auto
+        8px;
+
+      border-radius:
+        11px 11px
+        3px 3px;
+    }
+
+    .bar.low{
+      height:48px;
+
+      background:#C8D3D0;
+    }
+
+    .bar.high{
+      height:125px;
+
+      background:var(--sage);
+    }
+
+    .cost strong{
+      font-size:16px;
+
+      color:var(--navy);
+    }
+
+    .cost span{
+      display:block;
+
+      font-size:9px;
+
+      color:var(--muted);
+
+      margin-top:3px;
+    }
+
+    .health-chart-img{
+      width:100%;
+
+      height:230px;
+
+      object-fit:contain;
+
+      margin-top:12px;
+
+      background:#fff;
+
+      border-radius:10px;
+    }
+
+    .big87{
+      font-size:38px;
+
+      color:var(--bronze);
+
+      font-weight:800;
+
+      line-height:1;
+
+      margin-top:6px;
+    }
+
+    .health-bottom{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap:14px;
+
+      margin-top:14px;
+    }
+
+    .dept{
+      margin-top:15px;
+
+      display:grid;
+
+      gap:10px;
+    }
+
+    .drow{
+      display:grid;
+
+      grid-template-columns:
+        120px
+        1fr;
+
+      gap:9px;
+
+      align-items:center;
+    }
+
+    .drow span{
+      font-size:10px;
+
+      color:var(--muted);
+    }
+
+    .track{
+      height:10px;
+
+      background:#E8E3DA;
+
+      border-radius:99px;
+
+      overflow:hidden;
+    }
+
+    .fill{
+      height:100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--bronze),
+          #D2A57E
+        );
+    }
+
+    .insight-list{
+      display:grid;
+
+      gap:10px;
+
+      margin-top:14px;
+    }
+
+    .insight{
+      background:var(--paper);
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:13px;
+
+      padding:13px;
+    }
+
+    .insight b{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+    }
+
+    .insight span{
+      font-size:9.5px;
+
+      color:var(--muted);
+    }
+
+    /* =========================
+       AUTOMATION
+    ========================= */
+
+    .auto-flow{
+      display:grid;
+
+      grid-template-columns:
+        repeat(5,1fr);
+
+      gap:9px;
+
+      margin-top:18px;
+    }
+
+    .astep{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:14px;
+
+      padding:13px;
+    }
+
+    .astep b{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+
+      margin-bottom:5px;
+    }
+
+    .astep span{
+      font-size:9.5px;
+
+      color:var(--muted);
+
+      line-height:1.4;
+    }
+
+    .automation-visual{
+      display:grid;
+
+      grid-template-columns:
+        .72fr
+        1.28fr;
+
+      gap:14px;
+
+      margin-top:14px;
+    }
+
+    .logic-card{
+      background:#fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:18px;
+
+      padding:18px;
+    }
+
+    .logic-card code{
+      display:block;
+
+      margin-top:14px;
+
+      background:var(--paper);
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:13px;
+
+      padding:15px;
+
+      font-size:11px;
+
+      color:var(--navy);
+
+      line-height:1.8;
+
+      overflow-wrap:anywhere;
+    }
+
+    .snippet-shell{
+      border-radius:18px;
+
+      background:#112631;
+
+      padding:20px;
+
+      overflow:auto;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .snippet-shell pre{
+      margin:0;
+
+      color:#E8F0F2;
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+      font-size:12px;
+
+      line-height:1.7;
+
+      white-space:pre-wrap;
+
+      word-break:break-word;
+    }
+
+    .snippet-shell .kw{
+      color:#E4B880;
+    }
+
+    .snippet-shell .fn{
+      color:#83C4B7;
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact-section{
+      background:var(--navy);
+
+      color:white;
+
+      padding:
+        72px 0
+        44px;
+    }
+
+    .contact-section h2{
+      color:white;
+    }
+
+    .contact-section p{
+      color:#C8D5E0;
+
+      margin-top:10px;
+
+      max-width:650px;
+    }
+
+    .contact-links{
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:10px;
+
+      margin-top:26px;
+    }
+
+    .contact-link{
+      border:
+        1px solid
+        rgba(255,255,255,.16);
+
+      border-radius:15px;
+
+      padding:15px;
+
+      background:
+        rgba(255,255,255,.035);
+    }
+
+    .contact-link b{
+      display:block;
+
+      font-size:12px;
+
+      color:white;
+    }
+
+    .contact-link span{
+      display:block;
+
+      font-size:9.5px;
+
+      color:#C8D5E0;
+
+      margin-top:5px;
+
+      line-height:1.4;
+
+      overflow-wrap:anywhere;
+    }
+
+    .footer-note{
+      margin-top:28px;
+
+      padding-top:18px;
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.13);
+
+      color:#C8D5E0;
+
+      font-size:10px;
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
     @media(max-width:900px){
-      .live-dashboard-frame{height:620px}
-      .excel-block{grid-template-columns:1fr}
+
+      .nav-inner,
+      .wrap,
+      .hero{
+        width:min(
+          100% - 28px,
+          1180px
+        );
+      }
+
+      .nav-links{
+        display:none;
+      }
+
+      .hero{
+        grid-template-columns:1fr;
+
+        padding:
+          46px 0
+          42px;
+
+        gap:22px;
+      }
+
+      .hero-card{
+        min-height:auto;
+      }
+
+      .section{
+        padding:
+          52px 0;
+      }
+
+      .project{
+        padding:
+          54px 0;
+      }
+
+      .section-head,
+      .profile-grid,
+      .project-head,
+      .excel-grid,
+      .health-grid,
+      .health-bottom,
+      .automation-visual{
+        grid-template-columns:1fr;
+      }
+
+      .tool-grid{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .metrics{
+        margin-top:6px;
+      }
+
+      .health-flow{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .auto-flow{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .contact-links{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .live-frame{
+        height:590px;
+      }
+
     }
-    @media(max-width:600px){
-      .live-dashboard-shell,.excel-block{margin-left:16px;margin-right:16px}
-      .live-dashboard-frame{height:540px}
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:640px){
+
+      .nav-inner,
+      .wrap,
+      .hero{
+        width:calc(100% - 22px);
+      }
+
+      body{
+        font-size:14px;
+      }
+
+      .nav-inner{
+        padding:
+          11px 0;
+      }
+
+      .brand{
+        font-size:11px;
+      }
+
+      .hero{
+        padding:
+          34px 0
+          36px;
+      }
+
+      h1{
+        font-size:
+          clamp(
+            40px,
+            13vw,
+            58px
+          );
+      }
+
+      h2{
+        font-size:
+          clamp(
+            29px,
+            9.5vw,
+            40px
+          );
+      }
+
+      .hero-copy .sub{
+        font-size:14px;
+
+        line-height:1.65;
+      }
+
+      .hero-actions{
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        width:100%;
+      }
+
+      .hero-actions .btn{
+        width:100%;
+      }
+
+      .hero-card{
+        padding:21px;
+
+        border-radius:20px;
+      }
+
+      .hero-card .big{
+        font-size:23px;
+      }
+
+      .mini-grid{
+        grid-template-columns:1fr;
+      }
+
+      .section,
+      .project{
+        padding:
+          44px 0;
+      }
+
+      .section-head{
+        gap:12px;
+      }
+
+      .section-head p{
+        font-size:12px;
+      }
+
+      .profile-grid,
+      .tool-grid{
+        grid-template-columns:1fr;
+      }
+
+      .card{
+        padding:16px;
+      }
+
+      .project-head{
+        gap:18px;
+      }
+
+      .project-title p{
+        font-size:12px;
+      }
+
+      .metrics{
+        grid-template-columns:
+          1fr
+          1fr;
+
+        gap:8px;
+      }
+
+      .metric{
+        padding:12px;
+      }
+
+      .metric strong{
+        font-size:16px;
+      }
+
+      .metric span{
+        font-size:8.8px;
+      }
+
+      /* Hide heavy iframe on phones */
+      .live-frame{
+        display:none;
+      }
+
+      .mobile-dashboard{
+        display:block;
+      }
+
+      .dashboard-box{
+        padding:11px;
+      }
+
+      .dashboard-head{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .dashboard-head .btn{
+        width:100%;
+      }
+
+      .excel-grid{
+        gap:12px;
+      }
+
+      .excel-shot{
+        padding:8px;
+      }
+
+      .excel-side .btn{
+        width:100%;
+        align-self:stretch;
+      }
+
+      .health-flow,
+      .health-grid,
+      .health-bottom{
+        grid-template-columns:1fr;
+      }
+
+      .hstep{
+        padding:14px;
+      }
+
+      .hcard{
+        padding:15px;
+      }
+
+      .health-chart-img{
+        height:auto;
+        max-height:none;
+      }
+
+      .cost-bars{
+        gap:12px;
+      }
+
+      .cost{
+        width:50%;
+      }
+
+      .bar.high{
+        height:110px;
+      }
+
+      .drow{
+        grid-template-columns:
+          105px
+          1fr;
+      }
+
+      .auto-flow{
+        grid-template-columns:1fr;
+      }
+
+      .automation-visual{
+        grid-template-columns:1fr;
+      }
+
+      .snippet-shell{
+        padding:15px;
+      }
+
+      .snippet-shell pre{
+        font-size:10px;
+        line-height:1.65;
+      }
+
+      .contact-links{
+        grid-template-columns:1fr;
+      }
+
+      .contact-section{
+        padding:
+          52px 0
+          34px;
+      }
+
+      .contact-link{
+        padding:14px;
+      }
+
+      .tags{
+        gap:6px;
+      }
+
+      .tag{
+        font-size:9.5px;
+
+        padding:
+          5px 8px;
+      }
+
+    }
+
+    /* Very small phones */
+    @media(max-width:390px){
+
+      .metrics{
+        grid-template-columns:1fr;
+      }
+
+      .cost-bars{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .cost{
+        width:100%;
+      }
+
+      .bar{
+        width:45px;
+      }
+
+      .drow{
+        grid-template-columns:1fr;
+      }
+
+      .track{
+        width:100%;
+      }
+
     }
 
   </style>
 </head>
+
 <body>
+
+  <!-- =========================
+       NAV
+  ========================= -->
+
   <nav class="nav">
     <div class="nav-inner">
-      <div class="brand">RAZAN <span>ALTOWAIRQI</span></div>
+
+      <a class="brand" href="#top">
+        RAZAN <span>ALTOWAIRQI</span>
+      </a>
+
       <div class="nav-links">
         <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#dashboard">Dashboard Project</a>
+        <a href="#dashboard">Projects</a>
         <a href="#contact">Contact</a>
       </div>
+
     </div>
   </nav>
 
-  <header class="hero">
-    <div>
-      <div class="eyebrow">Data Analytics · Automation · Reporting</div>
-      <h1>Turning complex data into clear decisions.</h1>
-      <p>Selected work across dashboard development, data cleaning, analytical storytelling, Excel reporting, and Python automation.</p>
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <header
+    class="hero"
+    id="top"
+  >
+
+    <div class="hero-copy">
+
+      <div class="eyebrow">
+        Data Analytics Portfolio
+      </div>
+
+      <h1>
+        Turning operational data
+        into clearer decisions.
+      </h1>
+
+      <div class="line"></div>
+
+      <p class="sub">
+        Selected dashboard, analytics, and automation projects by
+        Razan Altowairqi.
+      </p>
+
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Excel</span>
+        <span class="tag">Dashboarding</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Data Visualization</span>
+      </div>
+
       <div class="hero-actions">
-        <a class="btn primary" href="#projects">View Selected Work</a>
-        <a class="btn" href="#dashboard">View Flagship Project</a>
+
+        <a
+          class="btn"
+          href="#dashboard"
+        >
+          Explore Projects ↓
+        </a>
+
+        <a
+          class="btn ghost"
+          href="https://github.com/Razanmtw17/razan-data-portfolio"
+          target="_blank"
+          rel="noopener"
+        >
+          GitHub ↗
+        </a>
+
       </div>
+
     </div>
-    <div class="hero-panel">
-      <div class="panel-kicker">Portfolio Snapshot</div>
-      <div class="panel-title">Practical analytics built for real reporting workflows.</div>
-      <div class="metric-grid">
-        <div class="metric"><strong>3</strong><span>Featured case studies</span></div>
-        <div class="metric"><strong>13</strong><span>Saudi regions covered</span></div>
-        <div class="metric"><strong>Python</strong><span>Automation & data processing</span></div>
-        <div class="metric"><strong>HTML + Excel</strong><span>Multi-format dashboards</span></div>
+
+
+    <div class="hero-card">
+
+      <div class="label">
+        Portfolio Snapshot
       </div>
+
+      <div class="big">
+        Data analytics with a practical reporting
+        and automation focus.
+      </div>
+
+      <div class="mini-grid">
+
+        <div class="hero-mini">
+          <b>01</b>
+          <span>
+            Interactive nationwide dashboard +
+            Excel reporting
+          </span>
+        </div>
+
+        <div class="hero-mini">
+          <b>02</b>
+          <span>
+            Healthcare sustainability &
+            early detection analysis
+          </span>
+        </div>
+
+        <div class="hero-mini">
+          <b>03</b>
+          <span>
+            Automated review reporting &
+            PowerPoint generation
+          </span>
+        </div>
+
+        <div class="hero-mini">
+          <b>End-to-end</b>
+          <span>
+            Cleaning, analysis, visualization,
+            and workflow automation
+          </span>
+        </div>
+
+      </div>
+
     </div>
+
   </header>
 
-  <section class="section" id="about">
-    <div class="section-head">
-      <h2>Profile</h2>
-      <p>I combine an Information Technology background with hands-on project reporting and analytics work—building tools that make large operational datasets easier to review, track, and act on.</p>
-    </div>
-    <div class="about-grid">
-      <div class="about-card">
-        <h3>What I focus on</h3>
-        <p>Data preparation, dashboarding, reporting automation, operational analytics, and translating business requirements into practical tools.</p>
+
+  <!-- =========================
+       ABOUT
+  ========================= -->
+
+  <section
+    class="section"
+    id="about"
+  >
+
+    <div class="wrap">
+
+      <div class="section-topline">
+
+        <span class="section-brand">
+          RAZAN ALTOWAIRQI
+        </span>
+
+        <span class="section-no">
+          01
+        </span>
+
       </div>
-      <div class="tools">
-        <div class="tool-card"><b>Python</b><span>Pandas · OpenPyXL · automation</span></div>
-        <div class="tool-card"><b>Excel</b><span>Dashboards · validation · reporting</span></div>
-        <div class="tool-card"><b>HTML / JS</b><span>Interactive dashboard development</span></div>
-        <div class="tool-card"><b>Data Analysis</b><span>Cleaning · trends · KPI logic</span></div>
-        <div class="tool-card"><b>Power BI</b><span>Visual analysis & reporting</span></div>
-        <div class="tool-card"><b>PMO Analytics</b><span>Tracking · progress · governance</span></div>
+
+      <div class="section-head">
+
+        <h2>
+          Data analytics with a practical
+          reporting and automation focus.
+        </h2>
+
+        <p>
+          My work focuses on structuring operational data,
+          validating and cleaning it, building useful reporting
+          views, and automating repetitive tasks so the final
+          output is easier to understand and use.
+        </p>
+
       </div>
+
+
+      <div class="profile-grid">
+
+        <div class="card profile-box">
+
+          <div class="kicker">
+            How I Work
+          </div>
+
+          <h3>
+            From raw data to decision-ready outputs.
+          </h3>
+
+          <p>
+            I combine technical analysis with practical reporting
+            needs, focusing on clarity, usability, and repeatable
+            workflows.
+          </p>
+
+          <div class="mini-flow">
+
+            <span>Raw Data</span>
+            <i>→</i>
+
+            <span>Clean & Validate</span>
+            <i>→</i>
+
+            <span>Analyze</span>
+            <i>→</i>
+
+            <span>Visualize</span>
+            <i>→</i>
+
+            <span>Automate</span>
+
+          </div>
+
+        </div>
+
+
+        <div class="tool-grid">
+
+          <div class="tool">
+            <b>Python</b>
+            <span>
+              Pandas · OpenPyXL · automation
+            </span>
+          </div>
+
+          <div class="tool">
+            <b>Excel</b>
+            <span>
+              Dashboards · validation · reporting
+            </span>
+          </div>
+
+          <div class="tool">
+            <b>HTML / JS</b>
+            <span>
+              Interactive dashboard development
+            </span>
+          </div>
+
+          <div class="tool">
+            <b>Data Analysis</b>
+            <span>
+              Cleaning · trends · KPI logic
+            </span>
+          </div>
+
+          <div class="tool">
+            <b>Power BI</b>
+            <span>
+              Visual analysis & reporting
+            </span>
+          </div>
+
+          <div class="tool">
+            <b>PMO Analytics</b>
+            <span>
+              Tracking · progress · governance
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
+
   </section>
 
-  <section class="section" id="projects">
-    <div class="section-head">
-      <h2>Selected Projects</h2>
-      <p>Three projects selected to show different strengths: interactive dashboarding, analytical research, and workflow automation.</p>
-    </div>
 
-    <article class="project" id="dashboard">
-      <div class="project-top">
-        <div>
-          <div class="project-no">Project 01 · Flagship</div>
-          <h3>Nationwide Project Outputs Dashboard</h3>
-          <p>Designed an interactive reporting solution to organize, classify, and visualize a large portfolio of project outputs across Saudi Arabia. The solution combines geographic analysis, timeline tracking, KPI views, regional drill-downs, and an Excel reporting version for users who prefer spreadsheet-based workflows.</p>
-          <div class="tags">
-            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">HTML</span><span class="tag">JavaScript</span><span class="tag">Excel</span><span class="tag">Data Cleaning</span>
-          </div>
-        </div>
-        <div class="project-side">
-          <div class="mini"><strong>13</strong><span>Regions represented</span></div>
-          <div class="mini"><strong>2</strong><span>Reporting experiences: Web + Excel</span></div>
-          <div class="mini"><strong>KPI</strong><span>Stage, track, entity & regional views</span></div>
-          <div class="mini"><strong>Live</strong><span>Interactive dashboard opens as a dedicated page</span></div>
-        </div>
+  <!-- =========================
+       PROJECT 01
+  ========================= -->
+
+  <section
+    class="project"
+    id="dashboard"
+  >
+
+    <div class="wrap">
+
+      <div class="section-topline">
+
+        <span class="section-brand">
+          PROJECT 01 · FLAGSHIP
+        </span>
+
+        <span class="section-no">
+          01
+        </span>
+
       </div>
-      <div class="live-dashboard-shell">
-        <div class="live-dashboard-head">
-          <div>
-            <div class="showcase-kicker">Interactive Web Experience</div>
-            <h4>Explore the live dashboard</h4>
-            <p>Use the filters, geographic view, stage switching, regional drill-downs, and KPI views directly below.</p>
+
+
+      <div class="project-head">
+
+        <div class="project-title">
+
+          <div class="kicker">
+            Nationwide Project Outputs Dashboard
           </div>
-          <a class="showcase-link" href="dashboard/index.html" target="_blank" rel="noopener">Open Full Screen ↗</a>
+
+          <h2>
+            Interactive reporting across regions,
+            tracks, entities, and timelines.
+          </h2>
+
+          <p>
+            Designed an interactive reporting solution to organize,
+            classify, and visualize a large portfolio of project
+            outputs across Saudi Arabia. The solution combines
+            geographic analysis, timeline tracking, KPI views,
+            regional drill-downs, and an Excel reporting version
+            for spreadsheet-based workflows.
+          </p>
+
+          <div class="tags">
+
+            <span class="tag">Python</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">HTML</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Excel</span>
+            <span class="tag">Data Cleaning</span>
+
+          </div>
+
         </div>
+
+
+        <div class="metrics">
+
+          <div class="metric">
+            <strong>13</strong>
+            <span>
+              Regions represented
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>2</strong>
+            <span>
+              Reporting experiences:
+              Web + Excel
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>KPI</strong>
+            <span>
+              Stage, track, entity &
+              regional views
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>Live</strong>
+            <span>
+              Interactive dashboard
+              hosted with GitHub Pages
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-box">
+
+        <div class="dashboard-head">
+
+          <div>
+
+            <div class="kicker">
+              Interactive Web Experience
+            </div>
+
+            <h4>
+              Explore the live dashboard
+            </h4>
+
+            <p>
+              Geographic view, stage switching,
+              regional drill-downs and KPI analysis.
+            </p>
+
+          </div>
+
+          <a
+            class="btn"
+            href="https://razanmtw17.github.io/razan-data-portfolio/dashboard/index.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Open Full Screen ↗
+          </a>
+
+        </div>
+
+
+        <!-- Desktop iframe -->
 
         <iframe
-          class="live-dashboard-frame"
+          class="live-frame"
           src="dashboard/index.html"
           title="Interactive Project Outputs Dashboard"
-          loading="lazy">
-        </iframe>
-      </div>
+          loading="lazy"
+        ></iframe>
 
-      <div class="excel-block">
-        <div class="excel-preview">
-          <img src="assets/excel_dashboard_preview.png.png" alt="Excel dashboard preview" />
-        </div>
 
-        <div class="excel-copy">
-          <div class="showcase-kicker">Excel Reporting Version</div>
-          <h4>Prefer working in Excel?</h4>
-          <p>The same synthetic dataset is also available through an Excel-based reporting dashboard with KPI summaries, track and monthly views, a calendar-style timeline, master data, and regional drill-down sheets.</p>
-          <div class="excel-actions">
-            <a class="showcase-link secondary" href="assets/.xlsx" download>Download Excel Dashboard ↓</a>
-          </div>
-        </div>
-      </div>
-    </article>
+        <!-- Mobile preview -->
 
-    <article class="project">
-      <div class="project-top">
-        <div>
-          <div class="project-no">Project 02 · Healthcare Analytics</div>
-          <h3>The Economics of Early Detection</h3>
-          <p>Chronic Disease Burden & Healthcare Sustainability in Saudi Arabia. This capstone combined Saudi Ministry of Health open data with published scientific literature to examine how chronic disease—particularly diabetes and its complications—can create long-term financial pressure, and where earlier detection and prevention could reduce downstream treatment costs.</p>
-          <div class="tags">
-            <span class="tag">Saudi MoH Open Data</span>
-            <span class="tag">Scientific Literature</span>
-            <span class="tag">Python</span>
-            <span class="tag">CAGR Projection</span>
-            <span class="tag">Economic Analysis</span>
-            <span class="tag">Data Visualization</span>
-          </div>
-        </div>
-        <div class="project-side">
-          <div class="mini"><strong>~87%</strong><span>Illustrative 2030 scenario: NCD burden as a share of projected MoH budget</span></div>
-          <div class="mini"><strong>~SAR 1.17B</strong><span>Potential downstream treatment savings in the analyzed scenario</span></div>
-          <div class="mini"><strong>~SAR 0.15B</strong><span>Estimated screening-program cost used in the scenario comparison</span></div>
-          <div class="mini"><strong>Public + Research</strong><span>Open government data combined with published evidence</span></div>
-        </div>
-      </div>
+        <div class="mobile-dashboard">
 
-      <div class="health-story">
-        <div class="health-flowline">
-          <div class="health-step">
-            <b>01 · Chronic Disease Burden</b>
-            <span>Long-term disease burden creates both direct healthcare costs and wider economic pressure.</span>
-          </div>
-          <div class="health-step">
-            <b>02 · Earlier Detection</b>
-            <span>Screening can identify risk earlier, before costly complications develop.</span>
-          </div>
-          <div class="health-step">
-            <b>03 · Fewer Complications</b>
-            <span>Preventing or delaying progression can reduce treatment needs across hospital departments.</span>
-          </div>
-          <div class="health-step">
-            <b>04 · Better Sustainability</b>
-            <span>Lower downstream costs can help protect long-term healthcare financial sustainability.</span>
-          </div>
-        </div>
+          <img
+            src="assets/dashboard_preview.png"
+            alt="Interactive dashboard preview"
+          >
 
-        <div class="health-grid">
+          <div class="actions">
 
-          <div class="chart-card">
-            <div class="health-kicker">1 · Economic Feasibility</div>
-            <h4>Cost of Screening vs. Potential Treatment Savings</h4>
-            <p>The analysis compared an estimated screening-program cost with potential downstream treatment savings from reducing diabetes-related complications.</p>
+            <a
+              class="btn"
+              href="https://razanmtw17.github.io/razan-data-portfolio/dashboard/index.html"
+              target="_blank"
+              rel="noopener"
+            >
+              View Interactive Dashboard ↗
+            </a>
 
-            <div class="cost-compare">
-              <div class="cost-bar screening">
-                <div class="bar"></div>
-                <strong>~SAR 0.15B</strong>
-                <span>Estimated screening cost</span>
-              </div>
-              <div class="cost-bar savings">
-                <div class="bar"></div>
-                <strong>~SAR 1.17B</strong>
-                <span>Potential treatment savings</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <div class="health-kicker">2 · Sustainability Challenge</div>
-            <h4>Projected MoH Budget vs. NCD Cost Burden</h4>
-            <p>Historical Ministry of Health budget data was used to calculate CAGR and project the budget to 2030. Published NCD burden estimates were then compared against that projected budget.</p>
-
-            <div class="sustainability-chart">
-              <div class="budget-line"></div>
-              <div class="ncd-line"></div>
-              <div class="marker budget"></div>
-              <div class="marker ncd"></div>
-              <div class="label budget">Projected MoH budget</div>
-              <div class="label ncd">NCD cost burden</div>
-            </div>
-
-            <div class="pressure-stat">
-              <strong>~87%</strong>
-              <span>of the projected 2030 MoH budget could be consumed by NCD costs in the analyzed scenario.</span>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <div class="health-kicker">3 · Downstream Cost Impact</div>
-            <h4>Where Savings Could Materialize</h4>
-            <p>Diabetes complications generate costs across multiple hospital departments. Addressing the underlying disease earlier could reduce downstream complications and associated treatment costs.</p>
-
-            <div class="dept-bars">
-              <div class="dept-row"><span>Cardiology</span><div class="dept-track"><div class="dept-fill" style="width:86%"></div></div></div>
-              <div class="dept-row"><span>Nephrology</span><div class="dept-track"><div class="dept-fill" style="width:72%"></div></div></div>
-              <div class="dept-row"><span>Ophthalmology</span><div class="dept-track"><div class="dept-fill" style="width:58%"></div></div></div>
-              <div class="dept-row"><span>Vascular / Foot Care</span><div class="dept-track"><div class="dept-fill" style="width:48%"></div></div></div>
-            </div>
-
-            <div class="insight-box">
-              <strong>Core insight</strong>
-              <span>The value of prevention is not limited to one department. Reducing diabetes progression can lower the need for treatment across several downstream clinical services.</span>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <div class="health-kicker">4 · Analytical Approach</div>
-            <h4>How the Analysis Was Built</h4>
-            <p>The project combined open datasets and research evidence rather than relying on a single source or a predictive machine-learning model.</p>
-
-            <div class="insight-box">
-              <strong>Data</strong>
-              <span>Saudi Ministry of Health open data and historical budget information.</span>
-            </div>
-
-            <div class="insight-box">
-              <strong>Research</strong>
-              <span>Published scientific literature was used for chronic disease economic-burden estimates.</span>
-            </div>
-
-            <div class="insight-box">
-              <strong>Projection</strong>
-              <span>CAGR was calculated from historical budget trends and applied as a continuation-of-trend scenario through 2030.</span>
-            </div>
           </div>
 
         </div>
-      </div>
-    </article>
 
-    <article class="project">
-      <div class="project-top">
-        <div>
-          <div class="project-no">Project 03 · Automation</div>
-          <h3>Automated Review Reporting & PowerPoint Generation</h3>
-          <p>Built a Python workflow that reads structured review data from Excel, standardizes status values, consolidates reviewer comments, dynamically determines slide capacity based on text length, and generates presentation-ready PowerPoint reports from a predefined template.</p>
-          <div class="tags">
-            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">python-pptx</span><span class="tag">Excel</span><span class="tag">PowerPoint Automation</span>
+      </div>
+
+
+      <div class="excel-grid">
+
+        <div class="excel-shot">
+
+          <img
+            src="assets/excel_dashboard_preview.png.png"
+            alt="Excel dashboard preview"
+          >
+
+        </div>
+
+
+        <div class="excel-side">
+
+          <div class="card">
+
+            <div class="kicker">
+              Excel Reporting Version
+            </div>
+
+            <h4>
+              Prefer working in Excel?
+            </h4>
+
+            <p>
+              The same synthetic dataset is also available through
+              an Excel-based reporting dashboard with KPI summaries,
+              track and monthly views, timeline analysis, master data,
+              and regional drill-down sheets.
+            </p>
+
           </div>
-        </div>
-        <div class="project-side">
-          <div class="mini"><strong>Dynamic</strong><span>Slide splitting based on content length</span></div>
-          <div class="mini"><strong>Auto</strong><span>Formatting copied from the template</span></div>
-          <div class="mini"><strong>Clean</strong><span>Reviewer notes consolidated automatically</span></div>
-          <div class="mini"><strong>Repeatable</strong><span>Standardized reporting workflow</span></div>
-        </div>
-      </div>
-      <div class="flow">
-        <div class="flow-step"><b>01 · Excel Input</b><span>Structured output names, statuses, and reviewer columns.</span></div>
-        <div class="flow-step"><b>02 · Clean & Normalize</b><span>Status values and text are standardized before processing.</span></div>
-        <div class="flow-step"><b>03 · Consolidate Notes</b><span>Meaningful reviewer comments are combined per output.</span></div>
-        <div class="flow-step"><b>04 · Layout Logic</b><span>Content length determines how records are split across slides.</span></div>
-        <div class="flow-step"><b>05 · PPT Output</b><span>Formatted presentation files are generated automatically.</span></div>
-      </div>
-    </article>
-  </section>
 
-  <section class="section" id="contact">
-    <div class="contact">
-      <div>
-        <h2>Let’s connect.</h2>
-        <p>Riyadh, Saudi Arabia · Open to data analytics, reporting, PMO analytics, and technical roles.</p>
+          <a
+            class="btn secondary"
+            href="assets/synthetic_regional_dashboard.xlsx"
+            download
+          >
+            Download Excel Dashboard ↓
+          </a>
+
+        </div>
+
       </div>
-      <div class="contact-links">
-        <a href="mailto:razan.m.tw@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/razan-altowairqi/" target="_blank">LinkedIn</a>
-        <a href="tel:+966505306149">Phone</a>
-      </div>
+
     </div>
+
   </section>
 
-  <div class="note">All organizational examples in this portfolio use synthetic or anonymized data. Healthcare analysis references public/open data and published research.</div>
+
+  <!-- =========================
+       PROJECT 02
+  ========================= -->
+
+  <section
+    class="project"
+    id="healthcare"
+  >
+
+    <div class="wrap">
+
+      <div class="section-topline">
+
+        <span class="section-brand">
+          PROJECT 02 · HEALTHCARE ANALYTICS
+        </span>
+
+        <span class="section-no">
+          02
+        </span>
+
+      </div>
+
+
+      <div class="project-head">
+
+        <div class="project-title">
+
+          <div class="kicker">
+            The Economics of Early Detection
+          </div>
+
+          <h2>
+            Chronic disease burden &
+            healthcare sustainability in Saudi Arabia.
+          </h2>
+
+          <p>
+            This capstone combined Saudi Ministry of Health open data
+            with published scientific literature to examine how
+            chronic disease—particularly diabetes and its complications—
+            can create long-term financial pressure, and where earlier
+            detection and prevention could reduce downstream treatment
+            costs.
+          </p>
+
+          <div class="tags">
+
+            <span class="tag">
+              Saudi MoH Open Data
+            </span>
+
+            <span class="tag">
+              Scientific Literature
+            </span>
+
+            <span class="tag">
+              Python
+            </span>
+
+            <span class="tag">
+              CAGR Projection
+            </span>
+
+            <span class="tag">
+              Economic Analysis
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="metrics">
+
+          <div class="metric">
+            <strong>~87%</strong>
+            <span>
+              Illustrative 2030 NCD burden
+              vs. projected MoH budget
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>~SAR 1.17B</strong>
+            <span>
+              Potential downstream
+              treatment savings scenario
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>~SAR 0.15B</strong>
+            <span>
+              Estimated screening-program
+              cost used in comparison
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>Public + Research</strong>
+            <span>
+              Open data combined with
+              published evidence
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="health-flow">
+
+        <div class="hstep">
+          <b>
+            01 · Chronic Disease Burden
+          </b>
+
+          <span>
+            Long-term disease burden creates
+            direct healthcare costs and wider
+            economic pressure.
+          </span>
+        </div>
+
+        <div class="hstep">
+          <b>
+            02 · Earlier Detection
+          </b>
+
+          <span>
+            Screening can identify risk earlier,
+            before costly complications develop.
+          </span>
+        </div>
+
+        <div class="hstep">
+          <b>
+            03 · Fewer Complications
+          </b>
+
+          <span>
+            Preventing or delaying progression
+            can reduce treatment needs across
+            hospital departments.
+          </span>
+        </div>
+
+        <div class="hstep">
+          <b>
+            04 · Better Sustainability
+          </b>
+
+          <span>
+            Lower downstream costs can help
+            protect long-term healthcare
+            sustainability.
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="health-grid">
+
+        <div class="hcard">
+
+          <div class="kicker">
+            Economic Feasibility
+          </div>
+
+          <h4>
+            Cost of Screening vs.
+            Potential Treatment Savings
+          </h4>
+
+          <p>
+            The analysis compared an estimated screening-program
+            cost with potential downstream treatment savings from
+            reducing diabetes-related complications.
+          </p>
+
+          <div class="cost-bars">
+
+            <div class="cost">
+
+              <div class="bar low"></div>
+
+              <strong>
+                ~SAR 0.15B
+              </strong>
+
+              <span>
+                Estimated screening cost
+              </span>
+
+            </div>
+
+            <div class="cost">
+
+              <div class="bar high"></div>
+
+              <strong>
+                ~SAR 1.17B
+              </strong>
+
+              <span>
+                Potential treatment savings
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="hcard">
+
+          <div class="kicker">
+            Sustainability Challenge
+          </div>
+
+          <h4>
+            Projected MoH Budget vs.
+            NCD Cost Burden
+          </h4>
+
+          <img
+            class="health-chart-img"
+            src="assets/health_budget_chart_clear.png"
+            alt="Historical MoH budget, projected budget growth, and NCD cost burden through 2030"
+          >
+
+          <div class="big87">
+            ~87%
+          </div>
+
+          <p>
+            of the projected 2030 MoH budget could be
+            consumed by NCD costs in the analyzed scenario.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="health-bottom">
+
+        <div class="hcard">
+
+          <div class="kicker">
+            Where Savings Could Materialize
+          </div>
+
+          <h4>
+            Potential downstream impact
+            across hospital departments
+          </h4>
+
+          <p>
+            Preventing or delaying diabetes progression may reduce
+            complications that later require treatment across
+            several clinical services.
+          </p>
+
+          <div class="dept">
+
+            <div class="drow">
+              <span>
+                Cardiology
+              </span>
+
+              <div class="track">
+                <div
+                  class="fill"
+                  style="width:86%"
+                ></div>
+              </div>
+            </div>
+
+            <div class="drow">
+              <span>
+                Nephrology
+              </span>
+
+              <div class="track">
+                <div
+                  class="fill"
+                  style="width:72%"
+                ></div>
+              </div>
+            </div>
+
+            <div class="drow">
+              <span>
+                Ophthalmology
+              </span>
+
+              <div class="track">
+                <div
+                  class="fill"
+                  style="width:58%"
+                ></div>
+              </div>
+            </div>
+
+            <div class="drow">
+              <span>
+                Vascular / Foot Care
+              </span>
+
+              <div class="track">
+                <div
+                  class="fill"
+                  style="width:48%"
+                ></div>
+              </div>
+            </div>
+
+          </div>
+
+          <p
+            style="
+              font-size:9px;
+              margin-top:12px;
+            "
+          >
+            Bar lengths are illustrative storytelling only;
+            no department-specific percentages are claimed.
+          </p>
+
+        </div>
+
+
+        <div class="hcard">
+
+          <div class="kicker">
+            Analytical Approach
+          </div>
+
+          <h4>
+            How the analysis was built
+          </h4>
+
+          <div class="insight-list">
+
+            <div class="insight">
+
+              <b>
+                Data
+              </b>
+
+              <span>
+                Saudi Ministry of Health open data
+                and historical budget information.
+              </span>
+
+            </div>
+
+            <div class="insight">
+
+              <b>
+                Research
+              </b>
+
+              <span>
+                Published scientific literature for
+                chronic disease economic-burden
+                estimates.
+              </span>
+
+            </div>
+
+            <div class="insight">
+
+              <b>
+                Projection
+              </b>
+
+              <span>
+                CAGR calculated from historical budget
+                trends and applied as a continuation-of-trend
+                scenario through 2030—not machine-learning
+                forecasting.
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PROJECT 03
+  ========================= -->
+
+  <section
+    class="project"
+    id="automation"
+  >
+
+    <div class="wrap">
+
+      <div class="section-topline">
+
+        <span class="section-brand">
+          PROJECT 03 · AUTOMATION
+        </span>
+
+        <span class="section-no">
+          03
+        </span>
+
+      </div>
+
+
+      <div class="project-head">
+
+        <div class="project-title">
+
+          <div class="kicker">
+            Automated Review Reporting &
+            PowerPoint Generation
+          </div>
+
+          <h2>
+            From structured Excel review data
+            to presentation-ready reporting.
+          </h2>
+
+          <p>
+            Built a Python workflow that reads structured review
+            data from Excel, normalizes status values, consolidates
+            reviewer comments, dynamically determines slide capacity
+            based on text length, and generates formatted PowerPoint
+            reports from a predefined template.
+          </p>
+
+          <div class="tags">
+
+            <span class="tag">
+              Python
+            </span>
+
+            <span class="tag">
+              Pandas
+            </span>
+
+            <span class="tag">
+              python-pptx
+            </span>
+
+            <span class="tag">
+              Excel
+            </span>
+
+            <span class="tag">
+              PowerPoint Automation
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="metrics">
+
+          <div class="metric">
+            <strong>
+              Dynamic
+            </strong>
+
+            <span>
+              Slide splitting based
+              on content length
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>
+              Auto
+            </strong>
+
+            <span>
+              Formatting copied
+              from template
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>
+              Clean
+            </strong>
+
+            <span>
+              Reviewer notes consolidated
+              automatically
+            </span>
+          </div>
+
+          <div class="metric">
+            <strong>
+              Repeatable
+            </strong>
+
+            <span>
+              Standardized reporting
+              workflow
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="auto-flow">
+
+        <div class="astep">
+          <b>
+            01 · Excel Input
+          </b>
+
+          <span>
+            Output names, statuses,
+            and reviewer columns.
+          </span>
+        </div>
+
+        <div class="astep">
+          <b>
+            02 · Clean & Normalize
+          </b>
+
+          <span>
+            Status values and text
+            standardized before processing.
+          </span>
+        </div>
+
+        <div class="astep">
+          <b>
+            03 · Consolidate Notes
+          </b>
+
+          <span>
+            Meaningful reviewer comments
+            combined per output.
+          </span>
+        </div>
+
+        <div class="astep">
+          <b>
+            04 · Layout Logic
+          </b>
+
+          <span>
+            Text length determines record
+            distribution across slides.
+          </span>
+        </div>
+
+        <div class="astep">
+          <b>
+            05 · PPT Output
+          </b>
+
+          <span>
+            Formatted presentation files
+            generated automatically.
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="automation-visual">
+
+        <div class="logic-card">
+
+          <div class="kicker">
+            Automation Logic
+          </div>
+
+          <code>
+            read_excel()<br>
+            normalize_status()<br>
+            aggregate_reviewer_notes()<br>
+            estimate_text_units()<br>
+            split_records_into_slides()<br>
+            copy_template_formatting()<br>
+            generate_presentation()
+          </code>
+
+        </div>
+
+
+        <div class="snippet-shell">
+
+<pre><span class="kw">def</span> <span class="fn">build_review_report</span>(records, template):
+    cleaned = normalize_status(records)
+    notes = aggregate_reviewer_notes(cleaned)
+
+    slides = split_records_into_slides(
+        notes,
+        capacity=estimate_text_units(notes)
+    )
+
+    <span class="kw">for</span> batch <span class="kw">in</span> slides:
+        slide = copy_template_formatting(template)
+        write_review_rows(slide, batch)
+
+    <span class="kw">return</span> generate_presentation(slides)</pre>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       CONTACT
+  ========================= -->
+
+  <section
+    class="contact-section"
+    id="contact"
+  >
+
+    <div class="wrap">
+
+      <div class="section-topline">
+
+        <span
+          class="section-brand"
+          style="color:#fff"
+        >
+          RAZAN ALTOWAIRQI
+        </span>
+
+        <span
+          class="section-no"
+          style="color:#C8D5E0"
+        >
+          CONTACT
+        </span>
+
+      </div>
+
+      <h2>
+        Let’s connect.
+      </h2>
+
+      <p>
+        For the live interactive experience,
+        project files, and future updates,
+        visit the portfolio repository and hosted dashboard.
+      </p>
+
+
+      <div class="contact-links">
+
+        <a
+          class="contact-link"
+          href="https://razanmtw17.github.io/razan-data-portfolio/dashboard/index.html"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <b>
+            Live Dashboard ↗
+          </b>
+
+          <span>
+            Interactive dashboard hosted
+            with GitHub Pages
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-link"
+          href="https://github.com/Razanmtw17/razan-data-portfolio"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <b>
+            GitHub Repository ↗
+          </b>
+
+          <span>
+            Portfolio files and project assets
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-link"
+          href="https://www.linkedin.com/in/razan-altowairqi/"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <b>
+            LinkedIn ↗
+          </b>
+
+          <span>
+            linkedin.com/in/razan-altowairqi
+          </span>
+
+        </a>
+
+
+        <a
+          class="contact-link"
+          href="https://wa.me/966505306149"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <b>
+            WhatsApp ↗
+          </b>
+
+          <span>
+            +966 50 530 6149
+          </span>
+
+        </a>
+
+      </div>
+
+
+      <div class="footer-note">
+        razan.m.tw@gmail.com · Riyadh, Saudi Arabia ·
+        All portfolio samples use synthetic, anonymized,
+        or public data.
+      </div>
+
+    </div>
+
+  </section>
+
 </body>
 </html>
