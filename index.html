@@ -117,14 +117,19 @@
     .project-side .mini{padding:18px;border-radius:18px;background:var(--paper);border:1px solid var(--line)}
     .mini strong{display:block;font-size:22px}.mini span{font-size:12px;color:var(--muted)}
 
-    .live-shell{background:#0f2530;padding:22px;border-top:1px solid #163541}
-    .live-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;color:#fff;margin:0 auto 14px;max-width:1160px}
-    .live-toolbar span{font-size:13px;opacity:.76}
-    .live-toolbar a{font-weight:800;font-size:13px;color:#f0c89f}
-    .live-frame{
-      display:block;width:100%;height:760px;border:0;border-radius:20px;background:white;
-      box-shadow:0 10px 40px rgba(0,0,0,.28);
-    }
+    .showcase-shell{background:#0f2530;padding:28px;border-top:1px solid #163541}
+    .showcase-grid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .showcase-card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 16px 42px rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.08)}
+    .showcase-image{position:relative;background:#e8edf0;aspect-ratio:16/9;overflow:hidden}
+    .showcase-image img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    .showcase-badge{position:absolute;top:14px;left:14px;padding:7px 10px;border-radius:999px;background:rgba(15,37,48,.88);color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
+    .showcase-body{padding:22px}
+    .showcase-kicker{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px}
+    .showcase-body h4{font-family:"Playfair Display",serif;font-size:25px;line-height:1.1;margin:0 0 10px;color:var(--ink)}
+    .showcase-body p{font-size:13px;margin:0 0 18px;color:var(--muted)}
+    .showcase-link{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:800}
+    .showcase-link.secondary{background:var(--bronze)}
+    .showcase-note{max-width:1160px;margin:16px auto 0;color:rgba(255,255,255,.7);font-size:11px;text-align:center}
 
     .health-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;padding:0 34px 34px}
     .chart-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:300px;position:relative;overflow:hidden}
@@ -157,12 +162,12 @@
       .tools{grid-template-columns:1fr 1fr}
       .flow{grid-template-columns:1fr 1fr}
       .flow-step:after{display:none}
-      .live-frame{height:640px}
+      .showcase-grid{grid-template-columns:1fr}
       .contact{grid-template-columns:1fr}.contact-links{justify-content:flex-start}
     }
     @media (max-width:560px){
       .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow{grid-template-columns:1fr}
-      .live-frame{height:580px}.section{padding-top:56px;padding-bottom:56px}
+      .section{padding-top:56px;padding-bottom:56px}
     }
   </style>
 </head>
@@ -173,7 +178,7 @@
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
-        <a href="#dashboard">Live Dashboard</a>
+        <a href="#dashboard">Dashboard Project</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
@@ -186,7 +191,7 @@
       <p>Selected work across dashboard development, data cleaning, analytical storytelling, Excel reporting, and Python automation.</p>
       <div class="hero-actions">
         <a class="btn primary" href="#projects">View Selected Work</a>
-        <a class="btn" href="#dashboard">Open Live Dashboard</a>
+        <a class="btn" href="#dashboard">View Flagship Project</a>
       </div>
     </div>
     <div class="hero-panel">
@@ -242,15 +247,38 @@
           <div class="mini"><strong>13</strong><span>Regions represented</span></div>
           <div class="mini"><strong>2</strong><span>Reporting experiences: Web + Excel</span></div>
           <div class="mini"><strong>KPI</strong><span>Stage, track, entity & regional views</span></div>
-          <div class="mini"><strong>Live</strong><span>Interactive dashboard embedded below</span></div>
+          <div class="mini"><strong>Live</strong><span>Interactive dashboard opens as a dedicated page</span></div>
         </div>
       </div>
-      <div class="live-shell">
-        <div class="live-toolbar">
-          <span>Interactive demo · synthetic data only</span>
-          <a href="dashboard/index.html" target="_blank">Open full screen ↗</a>
+      <div class="showcase-shell">
+        <div class="showcase-grid">
+          <div class="showcase-card">
+            <div class="showcase-image">
+              <img src="assets/dashboard_preview.png" alt="Interactive dashboard preview" />
+              <div class="showcase-badge">Interactive Web Dashboard</div>
+            </div>
+            <div class="showcase-body">
+              <div class="showcase-kicker">Web Experience</div>
+              <h4>Explore the interactive dashboard</h4>
+              <p>View the full geographic dashboard, track-level analysis, stage switching, regional drill-downs, and KPI views using synthetic demonstration data.</p>
+              <a class="showcase-link" href="dashboard/index.html" target="_blank" rel="noopener">View Interactive Dashboard ↗</a>
+            </div>
+          </div>
+
+          <div class="showcase-card">
+            <div class="showcase-image">
+              <img src="assets/excel_dashboard_preview.png" alt="Excel dashboard preview" />
+              <div class="showcase-badge">Excel Reporting Version</div>
+            </div>
+            <div class="showcase-body">
+              <div class="showcase-kicker">Spreadsheet Experience</div>
+              <h4>Download the Excel dashboard</h4>
+              <p>Includes KPI summaries, track and monthly views, a calendar-style timeline, master data, and regional drill-down sheets built from the same synthetic dataset.</p>
+              <a class="showcase-link secondary" href="assets/Synthetic_Project_Outputs_Excel_Dashboard.xlsx" download>Download Excel Dashboard ↓</a>
+            </div>
+          </div>
         </div>
-        <iframe class="live-frame" src="dashboard/index.html" title="Interactive Project Outputs Dashboard" loading="lazy"></iframe>
+        <div class="showcase-note">Synthetic data only · No confidential organizational information is included.</div>
       </div>
     </article>
 
