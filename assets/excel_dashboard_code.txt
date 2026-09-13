@@ -1,0 +1,1386 @@
+import os
+import re
+from collections import Counter
+
+import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.chart import BarChart, LineChart, Reference
+from openpyxl.formatting.rule import ColorScaleRule
+from openpyxl.worksheet.datavalidation import DataValidation
+
+
+# ============================================================
+# 1. SETTINGS
+# ============================================================
+
+INPUT_FILE = r"C:\Portfolio\synthetic_project_outputs\synthetic_outputs_master.xlsx"
+OUTPUT_FILE = r"C:\Portfolio\synthetic_project_outputs\synthetic_regional_dashboard.xlsx"
+MASTER_SHEET_NAME = "Project Outputs"
+TIMELINE_YEAR = 2027
+
+
+# ============================================================
+# 2. COLUMN NAMES
+# ============================================================
+
+# الأعمدة الداخلية للداشبورد
+COL_TRACK = "المسار"
+COL_ELEMENT = "العنصر"
+COL_OWNER = "الجهة التنفيذية"
+COL_OUTPUT = "اسم المخرج"
+COL_DESCRIPTION = "وصف المخرج"
+COL_START = "تاريخ البدء"
+COL_END = "تاريخ الانتهاء"
+COL_REGION = "المنطقة"
+COL_CITY = "المدينة"
+COL_ID = "الرقم التسلسلي"
+COL_LANGUAGE = "اللغة"
+
+# أسماء الأعمدة الفعلية الموجودة في ملف الـSynthetic
+SRC_ID = "الرقم التسلسلي"
+SRC_OUTPUT = "اسم المخرج"
+SRC_DESCRIPTION = "الوصف"
+SRC_OWNER = "الجهة المسؤولة"
+SRC_DATE = "التاريخ"
+SRC_REGION = "المنطقة الادارية"
+SRC_CITY = "المدينة"
+SRC_LANGUAGE = "اللغة"
+SRC_ELEMENT = "العنصر"
+
+SOURCE_REQUIRED_COLUMNS = [
+    SRC_ID,
+    SRC_OUTPUT,
+    SRC_DESCRIPTION,
+    SRC_OWNER,
+    SRC_DATE,
+    SRC_REGION,
+    SRC_CITY,
+    SRC_LANGUAGE,
+    SRC_ELEMENT,
+]
+
+# اشتقاق مسارات تجريبية من العناصر حتى تبقى بنية الملف مرتبطة بالداشبورد
+ELEMENT_TO_TRACK = {
+    "المناهج التعليمية": "المسار الأول",
+    "البرامج التدريبية": "المسار الأول",
+    "ورش العمل": "المسار الأول",
+    "المسابقات الطلابية": "المسار الأول",
+
+    "المعارض الثقافية": "المسار الثاني",
+    "التراث والحرف": "المسار الثاني",
+    "العروض الأدائية": "المسار الثاني",
+    "تفعيل المواقع": "المسار الثاني",
+
+    "الحملات الرقمية": "المسار الثالث",
+    "المحتوى المرئي": "المسار الثالث",
+    "التغطيات الإعلامية": "المسار الثالث",
+    "البودكاست": "المسار الثالث",
+
+    "الإصدارات المعرفية": "المسار الرابع",
+    "الفعاليات المجتمعية": "المسار الرابع",
+    "المبادرات التطوعية": "المسار الرابع",
+    "اللوحات الإعلانية": "المسار الرابع",
+}
+
+REQUIRED_COLUMNS = [
+    COL_TRACK,
+    COL_ELEMENT,
+    COL_OWNER,
+    COL_OUTPUT,
+    COL_DESCRIPTION,
+    COL_START,
+    COL_END,
+    COL_REGION,
+    COL_CITY,
+    COL_ID,
+]
+
+EXPORT_COLUMNS = [
+    COL_ID,
+    COL_TRACK,
+    COL_ELEMENT,
+    COL_OWNER,
+    COL_OUTPUT,
+    COL_DESCRIPTION,
+    COL_START,
+    COL_END,
+    COL_REGION,
+    COL_CITY,
+    COL_LANGUAGE,
+]
+
+
+# ============================================================
+# 3. REGIONS / CITIES
+# ============================================================
+
+AVAILABLE_CITIES_BY_REGION = {
+    "منطقة الرياض": ["الرياض", "الدرعية", "الخرج", "الدوادمي", "المجمعة", "القويعية", "الأفلاج", "وادي الدواسر", "الزلفي", "شقراء", "حوطة بني تميم", "عفيف", "الغاط", "السليل", "ضرما", "المزاحمية", "رماح", "ثادق", "حريملاء", "الحريق", "مرات"],
+    "منطقة مكة المكرمة": ["مكة المكرمة", "جدة", "الطائف", "القنفذة", "الليث", "رابغ", "الجموم", "خليص", "الكامل", "الخرمة", "رنية", "تربة", "العرضيات", "أضم", "ميسان", "المويه"],
+    "منطقة المدينة المنورة": ["المدينة المنورة", "ينبع", "العلا", "المهد", "بدر", "خيبر", "الحناكية", "العيص", "وادي الفرع"],
+    "منطقة القصيم": ["بريدة", "عنيزة", "الرس", "المذنب", "البكيرية", "البدائع", "الأسياح", "النبهانية", "عيون الجواء", "رياض الخبراء", "الشماسية", "عقلة الصقور", "ضرية"],
+    "المنطقة الشرقية": ["الدمام", "الخبر", "الظهران", "الأحساء", "حفر الباطن", "الجبيل", "القطيف", "الخفجي", "رأس تنورة", "بقيق", "النعيرية", "قرية العليا", "العديد"],
+    "منطقة عسير": ["أبها", "خميس مشيط", "بيشة", "النماص", "محايل عسير", "سراة عبيدة", "تثليث", "رجال ألمع", "بلقرن", "أحد رفيدة", "المجاردة", "ظهران الجنوب", "بارق", "تنومة", "البرك", "طريب"],
+    "منطقة تبوك": ["تبوك", "الوجه", "ضباء", "تيماء", "أملج", "حقل", "البدع"],
+    "منطقة حائل": ["حائل", "بقعاء", "الغزالة", "الشنان", "سميراء", "موقق", "الحائط", "السليمي", "الشملي"],
+    "منطقة الحدود الشمالية": ["عرعر", "رفحاء", "طريف", "العويقيلة"],
+    "منطقة جازان": ["جازان", "صبيا", "أبو عريش", "صامطة", "الحرث", "ضمد", "الريث", "بيش", "الدائر", "أحد المسارحة", "العارضة", "العيدابي", "الدرب", "فيفاء", "الطوال", "هروب"],
+    "منطقة نجران": ["نجران", "شرورة", "حبونا", "بدر الجنوب", "يدمة", "ثار", "خباش"],
+    "منطقة الباحة": ["الباحة", "بلجرشي", "المندق", "المخواة", "العقيق", "قلوة", "القرى", "الحجرة", "بني حسن", "غامد الزناد"],
+    "منطقة الجوف": ["سكاكا", "القريات", "دومة الجندل", "طبرجل"],
+}
+
+REGIONS = list(AVAILABLE_CITIES_BY_REGION.keys())
+FILTER_OPTIONS = ["جميع المناطق", *REGIONS]
+
+REGION_ALIASES = {
+    "الرياض": "منطقة الرياض", "منطقة الرياض": "منطقة الرياض", "ar riyad": "منطقة الرياض",
+    "مكة": "منطقة مكة المكرمة", "مكة المكرمة": "منطقة مكة المكرمة", "منطقة مكة المكرمة": "منطقة مكة المكرمة", "makkah": "منطقة مكة المكرمة",
+    "المدينة": "منطقة المدينة المنورة", "المدينة المنورة": "منطقة المدينة المنورة", "منطقة المدينة المنورة": "منطقة المدينة المنورة", "al madinah": "منطقة المدينة المنورة",
+    "القصيم": "منطقة القصيم", "منطقة القصيم": "منطقة القصيم", "al quassim": "منطقة القصيم",
+    "الشرقية": "المنطقة الشرقية", "المنطقة الشرقية": "المنطقة الشرقية", "ash sharqiyah": "المنطقة الشرقية",
+    "عسير": "منطقة عسير", "منطقة عسير": "منطقة عسير", "`asir": "منطقة عسير", "asir": "منطقة عسير",
+    "تبوك": "منطقة تبوك", "منطقة تبوك": "منطقة تبوك", "tabuk": "منطقة تبوك",
+    "حائل": "منطقة حائل", "منطقة حائل": "منطقة حائل", "ha'il": "منطقة حائل", "hail": "منطقة حائل",
+    "الحدود الشمالية": "منطقة الحدود الشمالية", "منطقة الحدود الشمالية": "منطقة الحدود الشمالية", "al hudud ash shamaliyah": "منطقة الحدود الشمالية",
+    "جازان": "منطقة جازان", "منطقة جازان": "منطقة جازان", "jizan": "منطقة جازان",
+    "نجران": "منطقة نجران", "منطقة نجران": "منطقة نجران", "najran": "منطقة نجران",
+    "الباحة": "منطقة الباحة", "منطقة الباحة": "منطقة الباحة", "al bahah": "منطقة الباحة",
+    "الجوف": "منطقة الجوف", "منطقة الجوف": "منطقة الجوف", "al jawf": "منطقة الجوف",
+}
+
+
+# ============================================================
+# 4. HELPERS
+# ============================================================
+
+def clean_text(value):
+    if pd.isna(value):
+        return ""
+    text = str(value).strip()
+    return "" if text.lower() in ["nan", "none", "null"] else text
+
+
+def normalize_arabic(text):
+    text = clean_text(text)
+    for old, new in {"أ":"ا","إ":"ا","آ":"ا","ى":"ي","ة":"ه","ـ":""}.items():
+        text = text.replace(old, new)
+    return re.sub(r"\s+", " ", text).strip().lower()
+
+
+NORMALIZED_REGION_ALIASES = {
+    normalize_arabic(k): v for k, v in REGION_ALIASES.items()
+}
+
+CITY_TO_REGION = {}
+for region, cities in AVAILABLE_CITIES_BY_REGION.items():
+    for city in cities:
+        CITY_TO_REGION[normalize_arabic(city)] = region
+
+
+# ============================================================
+# 5. DATE HANDLING
+# ============================================================
+
+def parse_date(value):
+    if pd.isna(value):
+        return pd.NaT
+    text = clean_text(value)
+    if text in ["", "-", "—", "–"]:
+        return pd.NaT
+    if "يحدد" in normalize_arabic(text):
+        return pd.NaT
+    return pd.to_datetime(value, errors="coerce", dayfirst=True)
+
+
+def clean_dates(df):
+    original_end = df[COL_END].copy()
+    df[COL_START] = df[COL_START].apply(parse_date)
+    df[COL_END] = df[COL_END].apply(parse_date)
+
+    for idx in df.index:
+        start_date = df.at[idx, COL_START]
+        end_date = df.at[idx, COL_END]
+        end_original = clean_text(original_end.loc[idx])
+
+        if pd.notna(start_date) and pd.isna(end_date) and end_original in ["", "-", "—", "–"]:
+            df.at[idx, COL_END] = start_date
+
+    return df
+
+
+# ============================================================
+# 6. LOCATION LOGIC
+# ============================================================
+
+def split_locations(value):
+    text = clean_text(value)
+    if not text:
+        return []
+    pattern = r"\s+-\s+|،|,|؛|;|/|\n|\|"
+    return [item.strip() for item in re.split(pattern, text) if item.strip()]
+
+
+def normalize_region_name(value):
+    text = normalize_arabic(value)
+    return NORMALIZED_REGION_ALIASES.get(text, "") if text else ""
+
+
+def detect_regions_from_cities(city_text):
+    regions_found = set()
+    unknown_cities = []
+
+    for city in split_locations(city_text):
+        region = CITY_TO_REGION.get(normalize_arabic(city))
+        if region:
+            regions_found.add(region)
+        else:
+            unknown_cities.append(city)
+
+    return sorted(regions_found), unknown_cities
+
+
+def is_digital(row):
+    region = normalize_arabic(row.get(COL_REGION, ""))
+    city = normalize_arabic(row.get(COL_CITY, ""))
+    language = normalize_arabic(row.get(COL_LANGUAGE, ""))
+
+    terms = [
+        "رقمي",
+        "الكتروني",
+        "منصه رقميه",
+        "منصات رقميه",
+    ]
+
+    return any(
+        term in region
+        or term in city
+        or term in language
+        for term in terms
+    )
+
+
+def is_international(row):
+    values = [
+        normalize_arabic(row.get(COL_REGION, "")),
+        normalize_arabic(row.get(COL_CITY, "")),
+    ]
+    terms = ["دولي", "خارج المملكه", "international"]
+    return any(term in value for value in values for term in terms)
+
+
+def is_national(row):
+    values = [
+        normalize_arabic(row.get(COL_REGION, "")),
+        normalize_arabic(row.get(COL_CITY, "")),
+    ]
+    terms = [
+        "جميع مناطق المملكه", "كافه مناطق المملكه", "كل مناطق المملكه",
+        "جميع المدن والمحافظات", "المدن الرئيسيه بالمناطق", "المملكه",
+    ]
+    return any(term in value for value in values for term in terms)
+
+
+def classify_row(row):
+    region_value = clean_text(row.get(COL_REGION, ""))
+    city_value = clean_text(row.get(COL_CITY, ""))
+
+    if is_international(row):
+        return {"scope":"دولي","regions":[],"unknown_cities":[],"location_known":True}
+
+    if is_digital(row):
+        return {"scope":"رقمي","regions":REGIONS.copy(),"unknown_cities":[],"location_known":True}
+
+    if is_national(row):
+        return {"scope":"وطني","regions":REGIONS.copy(),"unknown_cities":[],"location_known":True}
+
+    normalized_region = normalize_region_name(region_value)
+
+    if normalized_region:
+        return {"scope":"محلي","regions":[normalized_region],"unknown_cities":[],"location_known":True}
+
+    region_parts = split_locations(region_value)
+    if len(region_parts) > 1:
+        detected_regions = []
+        for region_item in region_parts:
+            normalized = normalize_region_name(region_item)
+            if normalized:
+                detected_regions.append(normalized)
+
+        if detected_regions:
+            return {
+                "scope":"متعدد المناطق",
+                "regions":sorted(set(detected_regions)),
+                "unknown_cities":[],
+                "location_known":True,
+            }
+
+    detected_regions, unknown = detect_regions_from_cities(city_value)
+
+    if detected_regions:
+        return {
+            "scope":"مستنتج من المدينة",
+            "regions":detected_regions,
+            "unknown_cities":unknown,
+            "location_known":True,
+        }
+
+    return {"scope":"غير محدد","regions":[],"unknown_cities":unknown,"location_known":False}
+
+
+# ============================================================
+# 7. LOAD + ENRICH
+# ============================================================
+
+def derive_track(element):
+    element = clean_text(element)
+
+    # إذا ظهر عنصر جديد غير موجود في الخريطة، نضعه مؤقتًا في المسار الرابع
+    return ELEMENT_TO_TRACK.get(
+        element,
+        "المسار الرابع"
+    )
+
+
+def load_data():
+    print("\nقراءة ملف البيانات التجريبية...")
+
+    source_df = pd.read_excel(
+        INPUT_FILE,
+        sheet_name=MASTER_SHEET_NAME
+    )
+
+    source_df.columns = [
+        clean_text(col)
+        for col in source_df.columns
+    ]
+
+    missing_columns = [
+        col
+        for col in SOURCE_REQUIRED_COLUMNS
+        if col not in source_df.columns
+    ]
+
+    if missing_columns:
+        raise ValueError(
+            "الأعمدة التالية غير موجودة في ملف الـSynthetic:\n"
+            + "\n".join(missing_columns)
+            + "\n\nالأعمدة الموجودة:\n"
+            + "\n".join(source_df.columns)
+        )
+
+    # توحيد أسماء أعمدة المصدر مع الأعمدة الداخلية للداشبورد
+    df = pd.DataFrame()
+
+    df[COL_ID] = source_df[SRC_ID]
+    df[COL_OUTPUT] = source_df[SRC_OUTPUT]
+    df[COL_DESCRIPTION] = source_df[SRC_DESCRIPTION]
+    df[COL_OWNER] = source_df[SRC_OWNER]
+
+    # يوجد في الملف تاريخ واحد فقط؛ نستخدمه كبداية ونهاية للمخرج
+    df[COL_START] = source_df[SRC_DATE]
+    df[COL_END] = source_df[SRC_DATE]
+
+    df[COL_REGION] = source_df[SRC_REGION]
+    df[COL_CITY] = source_df[SRC_CITY]
+    df[COL_LANGUAGE] = source_df[SRC_LANGUAGE]
+    df[COL_ELEMENT] = source_df[SRC_ELEMENT]
+
+    # المسار غير موجود في الملف، لذلك نشتقه من العنصر
+    df[COL_TRACK] = (
+        df[COL_ELEMENT]
+        .apply(derive_track)
+    )
+
+    df = df[EXPORT_COLUMNS].copy()
+    df = df.dropna(how="all")
+
+    for col in [
+        COL_ID,
+        COL_TRACK,
+        COL_ELEMENT,
+        COL_OWNER,
+        COL_OUTPUT,
+        COL_DESCRIPTION,
+        COL_REGION,
+        COL_CITY,
+        COL_LANGUAGE,
+    ]:
+        df[col] = df[col].apply(clean_text)
+
+    df = clean_dates(df)
+
+    df["_ترتيب_الماستر"] = range(len(df))
+
+    track_order = {
+        track: i
+        for i, track in enumerate(
+            df[COL_TRACK]
+            .fillna("")
+            .astype(str)
+            .str.strip()
+            .drop_duplicates()
+        )
+    }
+
+    df["_ترتيب_المسار"] = (
+        df[COL_TRACK]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+        .map(track_order)
+    )
+
+    return df
+
+
+def enrich_data(df):
+    scopes = []
+    target_regions = []
+    location_known = []
+    unknown_city_counter = Counter()
+
+    for _, row in df.iterrows():
+        classification = classify_row(row)
+
+        scopes.append(classification["scope"])
+        target_regions.append(classification["regions"])
+        location_known.append(classification["location_known"])
+
+        for city in classification["unknown_cities"]:
+            unknown_city_counter[city] += 1
+
+    df["_نوع_النطاق"] = scopes
+    df["_المناطق_المستهدفة"] = target_regions
+    df["_الموقع_معروف"] = location_known
+
+    return df, unknown_city_counter
+
+
+# ============================================================
+# 8. FILTERS
+# ============================================================
+
+def get_region_df(df, region):
+    mask = df["_المناطق_المستهدفة"].apply(lambda values: region in values)
+    return df[mask].copy()
+
+
+def get_kingdom_df(df):
+    return df[df["_نوع_النطاق"] != "دولي"].copy()
+
+
+def get_international_df(df):
+    return df[df["_نوع_النطاق"] == "دولي"].copy()
+
+
+def distinct_count(df, column):
+    return (
+        df[column]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .replace("", pd.NA)
+        .dropna()
+        .nunique()
+    )
+
+
+# ============================================================
+# 9. OUTPUT STATUS
+# ============================================================
+
+def output_level_statuses(filtered_df):
+    result = {}
+
+    if filtered_df.empty:
+        return result
+
+    for output_id, group in filtered_df.groupby(COL_ID, dropna=False):
+        output_id = clean_text(output_id)
+        if not output_id:
+            continue
+
+        has_date = group[COL_START].notna().any()
+        has_location = group["_الموقع_معروف"].fillna(False).any()
+
+        if has_date and has_location:
+            status = "مكتمل جغرافيًا وزمنيًا"
+        elif not has_date and has_location:
+            status = "بانتظار تحديد التاريخ"
+        elif has_date and not has_location:
+            status = "بانتظار تحديد الموقع"
+        else:
+            status = "غير محدد جغرافيًا وزمنيًا"
+
+        result[output_id] = status
+
+    return result
+
+
+# ============================================================
+# 10. TIMELINE
+# ============================================================
+
+MONTHS = [
+    "يناير","فبراير","مارس","أبريل","مايو","يونيو",
+    "يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر",
+]
+
+
+def month_bounds(year, month):
+    month_start = pd.Timestamp(year=year, month=month, day=1)
+    month_end = month_start + pd.offsets.MonthEnd(0)
+    return month_start, month_end
+
+
+def row_active_in_month(row, year, month):
+    start_date = row[COL_START]
+    end_date = row[COL_END]
+
+    if pd.isna(start_date):
+        return False
+
+    if pd.isna(end_date):
+        end_date = start_date
+
+    month_start, month_end = month_bounds(year, month)
+
+    return start_date <= month_end and end_date >= month_start
+
+
+# ============================================================
+# 11. DASHBOARD DATA
+# ============================================================
+
+def build_scope_data(df):
+    scopes = {"جميع المناطق": get_kingdom_df(df)}
+    for region in REGIONS:
+        scopes[region] = get_region_df(df, region)
+    return scopes
+
+
+def build_kpi_summary(scope_data):
+    rows = []
+
+    for scope_name, sdf in scope_data.items():
+        statuses = output_level_statuses(sdf)
+
+        rows.append({
+            "نطاق العرض": scope_name,
+            "عدد المخرجات": distinct_count(sdf, COL_ID),
+            "عدد المسارات": distinct_count(sdf, COL_TRACK),
+            "عدد العناصر": distinct_count(sdf, COL_ELEMENT),
+            "عدد الجهات": distinct_count(sdf, COL_OWNER),
+            "عدد المدن": distinct_count(sdf, COL_CITY),
+            "بانتظار تحديد التاريخ": sum(
+                1 for s in statuses.values()
+                if s == "بانتظار تحديد التاريخ"
+            ),
+            "بانتظار تحديد الموقع": sum(
+                1 for s in statuses.values()
+                if s == "بانتظار تحديد الموقع"
+            ),
+            "لا موقع ولا تاريخ": sum(
+                1 for s in statuses.values()
+                if s == "غير محدد جغرافيًا وزمنيًا"
+            ),
+        })
+
+    return pd.DataFrame(rows)
+
+
+def build_timeline_summary(scope_data, year):
+    rows = []
+
+    for scope_name, sdf in scope_data.items():
+        if sdf.empty:
+            continue
+
+        combinations = (
+            sdf[[COL_TRACK, COL_ELEMENT]]
+            .fillna("")
+            .drop_duplicates()
+        )
+
+        for _, combo in combinations.iterrows():
+            track = clean_text(combo[COL_TRACK])
+            element = clean_text(combo[COL_ELEMENT])
+
+            group = sdf[
+                (sdf[COL_TRACK].fillna("").astype(str).str.strip() == track)
+                &
+                (sdf[COL_ELEMENT].fillna("").astype(str).str.strip() == element)
+            ]
+
+            month_counts = []
+
+            for month in range(1, 13):
+                active_ids = set()
+
+                for _, row in group.iterrows():
+                    output_id = clean_text(row[COL_ID])
+
+                    if output_id and row_active_in_month(row, year, month):
+                        active_ids.add(output_id)
+
+                month_counts.append(len(active_ids))
+
+            row_result = {
+                "نطاق العرض": scope_name,
+                "المسار": track,
+                "العنصر": element,
+                "عدد المخرجات": distinct_count(group, COL_ID),
+            }
+
+            for i, month_name in enumerate(MONTHS):
+                row_result[month_name] = month_counts[i]
+
+            rows.append(row_result)
+
+    return pd.DataFrame(rows)
+
+
+def build_distribution_summary(scope_data, field_name):
+    result = []
+
+    for scope_name, sdf in scope_data.items():
+        if sdf.empty:
+            continue
+
+        temp = sdf[[field_name, COL_ID]].dropna().copy()
+        temp[field_name] = temp[field_name].astype(str).str.strip()
+        temp = temp[temp[field_name] != ""]
+
+        grouped = (
+            temp
+            .drop_duplicates()
+            .groupby(field_name)[COL_ID]
+            .nunique()
+            .sort_values(ascending=False)
+        )
+
+        for label, count in grouped.items():
+            result.append({
+                "نطاق العرض": scope_name,
+                "التصنيف": label,
+                "عدد المخرجات": int(count),
+            })
+
+    return pd.DataFrame(result)
+
+
+def build_month_summary(scope_data, year):
+    rows = []
+
+    for scope_name, sdf in scope_data.items():
+        for month in range(1, 13):
+            active_ids = set()
+
+            for _, row in sdf.iterrows():
+                output_id = clean_text(row[COL_ID])
+
+                if output_id and row_active_in_month(row, year, month):
+                    active_ids.add(output_id)
+
+            rows.append({
+                "نطاق العرض": scope_name,
+                "الشهر": MONTHS[month - 1],
+                "رقم الشهر": month,
+                "عدد المخرجات النشطة": len(active_ids),
+            })
+
+    return pd.DataFrame(rows)
+
+
+# ============================================================
+# 12. EXCEL STYLES
+# ============================================================
+
+DARK_BLUE = "17365D"
+BLUE = "4472C4"
+LIGHT_BLUE = "D9EAF7"
+VERY_LIGHT = "F3F6F9"
+WHITE = "FFFFFF"
+TEXT_BLUE = "17365D"
+GRAY = "D9E1F2"
+
+thin_gray = Side(style="thin", color=GRAY)
+
+BORDER = Border(
+    left=thin_gray,
+    right=thin_gray,
+    top=thin_gray,
+    bottom=thin_gray,
+)
+
+
+def setup_rtl(ws):
+    ws.sheet_view.rightToLeft = True
+
+
+def style_title(ws, cell_range, text):
+    ws.merge_cells(cell_range)
+
+    cell = ws[cell_range.split(":")[0]]
+    cell.value = text
+    cell.fill = PatternFill("solid", fgColor=DARK_BLUE)
+    cell.font = Font(bold=True, color=WHITE, size=18)
+    cell.alignment = Alignment(horizontal="right", vertical="center")
+
+
+def style_header_row(ws, row, start_col, end_col):
+    for col in range(start_col, end_col + 1):
+        cell = ws.cell(row=row, column=col)
+        cell.fill = PatternFill("solid", fgColor=BLUE)
+        cell.font = Font(bold=True, color=WHITE)
+        cell.alignment = Alignment(
+            horizontal="center",
+            vertical="center",
+            wrap_text=True
+        )
+        cell.border = BORDER
+
+
+def write_dataframe(ws, df, start_row=1, start_col=1):
+    for col_offset, col_name in enumerate(df.columns, start=start_col):
+        ws.cell(row=start_row, column=col_offset, value=col_name)
+
+    style_header_row(
+        ws,
+        start_row,
+        start_col,
+        start_col + len(df.columns) - 1
+    )
+
+    for r_offset, (_, row) in enumerate(df.iterrows(), start=start_row + 1):
+        for c_offset, col_name in enumerate(df.columns, start=start_col):
+            value = row[col_name]
+            if pd.isna(value):
+                value = None
+            ws.cell(row=r_offset, column=c_offset, value=value)
+
+
+# ============================================================
+# 13. REGION SHEETS
+# ============================================================
+
+def create_region_sheet(wb, sheet_name, title, region_df):
+    ws = wb.create_sheet(sheet_name)
+    setup_rtl(ws)
+
+    end_col_letter = ws.cell(row=1, column=len(EXPORT_COLUMNS)).column_letter
+    style_title(ws, f"A1:{end_col_letter}2", title)
+
+    region_df = (
+        region_df
+        .sort_values(
+            by=["_ترتيب_المسار", "_ترتيب_الماستر"],
+            na_position="last"
+        )
+        .copy()
+    )
+
+    export_df = region_df[EXPORT_COLUMNS].copy()
+
+    for col_index, column in enumerate(EXPORT_COLUMNS, start=1):
+        ws.cell(row=4, column=col_index, value=column)
+
+    style_header_row(ws, 4, 1, len(EXPORT_COLUMNS))
+
+    for row_index, (_, row) in enumerate(export_df.iterrows(), start=5):
+        for col_index, column in enumerate(EXPORT_COLUMNS, start=1):
+            value = row[column]
+            if pd.isna(value):
+                value = None
+
+            cell = ws.cell(row=row_index, column=col_index, value=value)
+            cell.alignment = Alignment(
+                horizontal="right",
+                vertical="top",
+                wrap_text=True
+            )
+            cell.border = BORDER
+
+            if column in [COL_START, COL_END]:
+                cell.number_format = "dd-mm-yyyy"
+
+    if len(export_df) > 0:
+        last_col = ws.cell(row=4, column=len(EXPORT_COLUMNS)).column_letter
+        ws.auto_filter.ref = f"A4:{last_col}{4 + len(export_df)}"
+
+    ws.freeze_panes = "A5"
+
+    for col_index, column in enumerate(EXPORT_COLUMNS, start=1):
+        letter = ws.cell(row=4, column=col_index).column_letter
+
+        if column == COL_DESCRIPTION:
+            width = 45
+        elif column == COL_OUTPUT:
+            width = 30
+        elif column in [COL_OWNER, COL_REGION, COL_CITY, COL_LANGUAGE]:
+            width = 24
+        elif column in [COL_START, COL_END]:
+            width = 15
+        else:
+            width = 20
+
+        ws.column_dimensions[letter].width = width
+
+
+# ============================================================
+# 14. HELPER SHEETS
+# ============================================================
+
+def create_helper_sheets(
+    wb,
+    kpi_df,
+    timeline_df,
+    track_df,
+    element_df,
+    owner_df,
+    city_df,
+    month_df,
+):
+    ws = wb.create_sheet("_Lists")
+    setup_rtl(ws)
+
+    for index, value in enumerate(FILTER_OPTIONS, start=1):
+        ws.cell(row=index, column=1, value=value)
+
+    ws.sheet_state = "hidden"
+
+    helper_data = {
+        "_KPI": kpi_df,
+        "_Timeline": timeline_df,
+        "_Track": track_df,
+        "_Element": element_df,
+        "_Owner": owner_df,
+        "_City": city_df,
+        "_Month": month_df,
+    }
+
+    for sheet_name, data in helper_data.items():
+        ws = wb.create_sheet(sheet_name)
+        setup_rtl(ws)
+        write_dataframe(ws, data, 1, 1)
+        ws.sheet_state = "hidden"
+
+
+# ============================================================
+# 15. DASHBOARD
+# ============================================================
+
+def create_dashboard(
+    wb,
+    df,
+    kpi_df,
+    timeline_df,
+    track_df,
+    element_df,
+    owner_df,
+    city_df,
+):
+    ws = wb.create_sheet("Dashboard", 0)
+    setup_rtl(ws)
+
+    style_title(
+        ws,
+        "A1:R2",
+        "لوحة تحليل المخرجات — بيانات تجريبية"
+    )
+
+    ws["P4"] = "المنطقة"
+    ws["P4"].font = Font(bold=True, color=TEXT_BLUE)
+
+    ws["P5"] = "جميع المناطق"
+    ws["P5"].fill = PatternFill("solid", fgColor=LIGHT_BLUE)
+    ws["P5"].font = Font(bold=True)
+    ws["P5"].alignment = Alignment(horizontal="center")
+
+    dv = DataValidation(
+        type="list",
+        formula1=f"'_Lists'!$A$1:$A${len(FILTER_OPTIONS)}",
+        allow_blank=False
+    )
+    ws.add_data_validation(dv)
+    dv.add(ws["P5"])
+
+    kpi_columns = {
+        "عدد المخرجات": "B",
+        "عدد المسارات": "C",
+        "عدد العناصر": "D",
+        "عدد الجهات": "E",
+        "عدد المدن": "F",
+        "بانتظار تحديد التاريخ": "G",
+        "بانتظار تحديد الموقع": "H",
+        "لا موقع ولا تاريخ": "I",
+    }
+
+    card_positions = [
+        (4, 1), (4, 4), (4, 7), (4, 10),
+        (8, 1), (8, 4), (8, 7), (8, 10),
+    ]
+
+    for label, (row, col) in zip(kpi_columns.keys(), card_positions):
+        helper_col = kpi_columns[label]
+
+        ws.merge_cells(
+            start_row=row,
+            start_column=col,
+            end_row=row,
+            end_column=col + 1
+        )
+
+        ws.merge_cells(
+            start_row=row + 1,
+            start_column=col,
+            end_row=row + 2,
+            end_column=col + 1
+        )
+
+        label_cell = ws.cell(row=row, column=col, value=label)
+        value_cell = ws.cell(row=row + 1, column=col)
+
+        value_cell.value = (
+            f'=IFERROR(INDEX(_KPI!${helper_col}:${helper_col},'
+            f'MATCH($P$5,_KPI!$A:$A,0)),0)'
+        )
+
+        for r in range(row, row + 3):
+            for c in range(col, col + 2):
+                cell = ws.cell(row=r, column=c)
+                cell.fill = PatternFill("solid", fgColor=VERY_LIGHT)
+                cell.border = BORDER
+                cell.alignment = Alignment(
+                    horizontal="center",
+                    vertical="center",
+                    wrap_text=True
+                )
+
+        label_cell.font = Font(bold=True, color="5B7083")
+        value_cell.font = Font(bold=True, size=18, color=TEXT_BLUE)
+
+    timeline_title_row = 13
+
+    ws.merge_cells(
+        start_row=timeline_title_row,
+        start_column=1,
+        end_row=timeline_title_row,
+        end_column=15
+    )
+
+    title_cell = ws.cell(
+        row=timeline_title_row,
+        column=1,
+        value=f"التايم لاين لعام {TIMELINE_YEAR} حسب المسار والعنصر"
+    )
+
+    title_cell.fill = PatternFill("solid", fgColor=LIGHT_BLUE)
+    title_cell.font = Font(bold=True, color=TEXT_BLUE)
+
+    headers = ["المسار", "العنصر", "عدد المخرجات", *MONTHS]
+    header_row = timeline_title_row + 1
+
+    for col, header in enumerate(headers, start=1):
+        ws.cell(row=header_row, column=col, value=header)
+
+    style_header_row(ws, header_row, 1, 15)
+
+    kingdom_df = get_kingdom_df(df)
+
+    combinations = (
+        kingdom_df[[COL_TRACK, COL_ELEMENT]]
+        .fillna("")
+        .drop_duplicates(keep="first")
+    )
+
+    first_timeline_row = header_row + 1
+
+    helper_month_cols = [
+        "E","F","G","H","I","J","K","L","M","N","O","P"
+    ]
+
+    for row_idx, (_, combo) in enumerate(
+        combinations.iterrows(),
+        start=first_timeline_row
+    ):
+        track = clean_text(combo[COL_TRACK])
+        element = clean_text(combo[COL_ELEMENT])
+
+        ws.cell(row=row_idx, column=1, value=track)
+        ws.cell(row=row_idx, column=2, value=element)
+
+        ws.cell(row=row_idx, column=3).value = (
+            '=SUMIFS(_Timeline!$D:$D,'
+            '_Timeline!$A:$A,$P$5,'
+            f'_Timeline!$B:$B,$A{row_idx},'
+            f'_Timeline!$C:$C,$B{row_idx})'
+        )
+
+        for month_offset, excel_col in enumerate(range(4, 16)):
+            helper_col = helper_month_cols[month_offset]
+
+            ws.cell(row=row_idx, column=excel_col).value = (
+                f'=SUMIFS(_Timeline!${helper_col}:${helper_col},'
+                '_Timeline!$A:$A,$P$5,'
+                f'_Timeline!$B:$B,$A{row_idx},'
+                f'_Timeline!$C:$C,$B{row_idx})'
+            )
+
+        for col in range(1, 16):
+            cell = ws.cell(row=row_idx, column=col)
+            cell.alignment = Alignment(
+                horizontal="center",
+                vertical="center",
+                wrap_text=True
+            )
+            cell.border = BORDER
+
+        for col in range(3, 16):
+            ws.cell(row=row_idx, column=col).number_format = '0;-0;;'
+
+    last_timeline_row = first_timeline_row + len(combinations) - 1
+
+    if len(combinations):
+        ws.conditional_formatting.add(
+            f"D{first_timeline_row}:O{last_timeline_row}",
+            ColorScaleRule(
+                start_type="min",
+                start_color="FFFFFF",
+                mid_type="percentile",
+                mid_value=50,
+                mid_color="BDD7EE",
+                end_type="max",
+                end_color="4472C4",
+            )
+        )
+
+    analysis_row = last_timeline_row + 3 if len(combinations) else 18
+
+    all_tracks = (
+        kingdom_df[COL_TRACK]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .replace("", pd.NA)
+        .dropna()
+        .drop_duplicates()
+        .tolist()
+    )
+
+    ws.cell(row=analysis_row, column=1, value="المسار")
+    ws.cell(row=analysis_row, column=2, value="عدد المخرجات")
+    style_header_row(ws, analysis_row, 1, 2)
+
+    for offset, track in enumerate(all_tracks, start=1):
+        row_num = analysis_row + offset
+        ws.cell(row=row_num, column=1, value=track)
+        ws.cell(row=row_num, column=2).value = (
+            '=SUMIFS(_Track!$C:$C,'
+            '_Track!$A:$A,$P$5,'
+            f'_Track!$B:$B,$A{row_num})'
+        )
+
+    if all_tracks:
+        chart = BarChart()
+        chart.title = "توزيع المخرجات حسب المسار"
+        chart.height = 8
+        chart.width = 14
+        chart.legend = None
+
+        data_ref = Reference(
+            ws,
+            min_col=2,
+            min_row=analysis_row,
+            max_row=analysis_row + len(all_tracks)
+        )
+
+        cats_ref = Reference(
+            ws,
+            min_col=1,
+            min_row=analysis_row + 1,
+            max_row=analysis_row + len(all_tracks)
+        )
+
+        chart.add_data(data_ref, titles_from_data=True)
+        chart.set_categories(cats_ref)
+
+        ws.add_chart(chart, f"D{analysis_row}")
+
+    month_col = 11
+
+    ws.cell(row=analysis_row, column=month_col, value="الشهر")
+    ws.cell(row=analysis_row, column=month_col + 1, value="المخرجات النشطة")
+    style_header_row(ws, analysis_row, month_col, month_col + 1)
+
+    for month_number, month_name in enumerate(MONTHS, start=1):
+        row_num = analysis_row + month_number
+
+        ws.cell(row=row_num, column=month_col, value=month_name)
+
+        ws.cell(row=row_num, column=month_col + 1).value = (
+            '=SUMIFS(_Month!$D:$D,'
+            '_Month!$A:$A,$P$5,'
+            f'_Month!$B:$B,$K{row_num})'
+        )
+
+    line_chart = LineChart()
+    line_chart.title = "المخرجات النشطة حسب الشهر"
+    line_chart.height = 8
+    line_chart.width = 14
+    line_chart.legend = None
+
+    line_data = Reference(
+        ws,
+        min_col=month_col + 1,
+        min_row=analysis_row,
+        max_row=analysis_row + 12
+    )
+
+    line_categories = Reference(
+        ws,
+        min_col=month_col,
+        min_row=analysis_row + 1,
+        max_row=analysis_row + 12
+    )
+
+    line_chart.add_data(line_data, titles_from_data=True)
+    line_chart.set_categories(line_categories)
+
+    ws.add_chart(line_chart, f"N{analysis_row}")
+
+    widths = {
+        "A": 22, "B": 24, "C": 15,
+        "D": 10, "E": 10, "F": 10, "G": 10, "H": 10, "I": 10,
+        "J": 10, "K": 10, "L": 12, "M": 10, "N": 10, "O": 10,
+        "P": 20, "Q": 18, "R": 18,
+    }
+
+    for col, width in widths.items():
+        ws.column_dimensions[col].width = width
+
+    ws.freeze_panes = f"A{header_row + 1}"
+
+
+# ============================================================
+# 16. MASTER DATA
+# ============================================================
+
+def create_master_sheet(wb, df):
+    ws = wb.create_sheet("Master Data")
+    setup_rtl(ws)
+
+    for col_index, column in enumerate(EXPORT_COLUMNS, start=1):
+        ws.cell(row=1, column=col_index, value=column)
+
+    style_header_row(ws, 1, 1, len(EXPORT_COLUMNS))
+
+    for row_index, (_, row) in enumerate(df.iterrows(), start=2):
+        for col_index, column in enumerate(EXPORT_COLUMNS, start=1):
+            value = row[column]
+
+            if pd.isna(value):
+                value = None
+
+            cell = ws.cell(
+                row=row_index,
+                column=col_index,
+                value=value
+            )
+
+            cell.alignment = Alignment(
+                horizontal="right",
+                vertical="top",
+                wrap_text=True
+            )
+
+            cell.border = BORDER
+
+            if column in [COL_START, COL_END]:
+                cell.number_format = "dd-mm-yyyy"
+
+    last_col_letter = ws.cell(
+        row=1,
+        column=len(EXPORT_COLUMNS)
+    ).column_letter
+
+    ws.auto_filter.ref = f"A1:{last_col_letter}{len(df) + 1}"
+    ws.freeze_panes = "A2"
+
+
+# ============================================================
+# 17. CONSOLE REPORT
+# ============================================================
+
+def print_console_report(df, unknown_cities):
+    print("\n" + "=" * 75)
+    print("Synthetic Dataset Processing Report")
+    print("=" * 75)
+
+    print(f"Rows: {len(df):,}")
+    print(f"Unique outputs: {distinct_count(df, COL_ID):,}")
+
+    print("\nScope types:")
+
+    for scope, count in df["_نوع_النطاق"].value_counts().items():
+        print(f"  {scope}: {count:,}")
+
+    print("\nUnknown cities:")
+
+    if unknown_cities:
+        for city, count in unknown_cities.most_common():
+            print(f"  - {city}: {count}")
+    else:
+        print("  None")
+
+    print("=" * 75)
+
+
+# ============================================================
+# 18. MAIN
+# ============================================================
+
+def main():
+    print("\nStarting Synthetic Excel Dashboard...")
+
+    df = load_data()
+    df, unknown_cities = enrich_data(df)
+
+    print_console_report(df, unknown_cities)
+
+    scope_data = build_scope_data(df)
+
+    kpi_df = build_kpi_summary(scope_data)
+
+    timeline_df = build_timeline_summary(
+        scope_data,
+        TIMELINE_YEAR
+    )
+
+    track_df = build_distribution_summary(
+        scope_data,
+        COL_TRACK
+    )
+
+    element_df = build_distribution_summary(
+        scope_data,
+        COL_ELEMENT
+    )
+
+    owner_df = build_distribution_summary(
+        scope_data,
+        COL_OWNER
+    )
+
+    city_df = build_distribution_summary(
+        scope_data,
+        COL_CITY
+    )
+
+    month_df = build_month_summary(
+        scope_data,
+        TIMELINE_YEAR
+    )
+
+    wb = Workbook()
+    wb.remove(wb.active)
+
+    create_helper_sheets(
+        wb,
+        kpi_df,
+        timeline_df,
+        track_df,
+        element_df,
+        owner_df,
+        city_df,
+        month_df,
+    )
+
+    create_dashboard(
+        wb,
+        df,
+        kpi_df,
+        timeline_df,
+        track_df,
+        element_df,
+        owner_df,
+        city_df,
+    )
+
+    create_master_sheet(wb, df)
+
+    for region in REGIONS:
+        region_df = get_region_df(df, region)
+
+        sheet_name = (
+            region
+            .replace("منطقة ", "")
+            .replace("المنطقة ", "")
+        )
+
+        create_region_sheet(
+            wb,
+            sheet_name,
+            f"المخرجات التجريبية — {region}",
+            region_df
+        )
+
+        print(
+            f"{region}: "
+            f"{len(region_df):,} rows | "
+            f"{distinct_count(region_df, COL_ID):,} outputs"
+        )
+
+    international_df = get_international_df(df)
+
+    create_region_sheet(
+        wb,
+        "الدولي",
+        "المخرجات الدولية — بيانات تجريبية",
+        international_df
+    )
+
+    undefined_df = df[
+        (
+            df["_المناطق_المستهدفة"]
+            .apply(lambda values: len(values) == 0)
+        )
+        &
+        (
+            df["_نوع_النطاق"] != "دولي"
+        )
+    ].copy()
+
+    create_region_sheet(
+        wb,
+        "غير محدد",
+        "مخرجات تتطلب استكمال الموقع — بيانات تجريبية",
+        undefined_df
+    )
+
+    wb.active = wb.sheetnames.index("Dashboard")
+
+    try:
+        wb.calculation.fullCalcOnLoad = True
+        wb.calculation.forceFullCalc = True
+        wb.calculation.calcMode = "auto"
+    except Exception:
+        pass
+
+    output_dir = os.path.dirname(OUTPUT_FILE)
+
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    wb.save(OUTPUT_FILE)
+
+    print("\n" + "=" * 75)
+    print("Synthetic Excel Dashboard created successfully")
+    print(OUTPUT_FILE)
+    print("=" * 75)
+
+
+if __name__ == "__main__":
+    main()
