@@ -169,6 +169,45 @@
       .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow{grid-template-columns:1fr}
       .section{padding-top:56px;padding-bottom:56px}
     }
+  
+    .live-dashboard-shell{
+      margin:0 34px 24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(16,34,43,.06);
+    }
+    .live-dashboard-head{
+      display:flex;justify-content:space-between;gap:18px;align-items:center;
+      margin-bottom:14px;flex-wrap:wrap;
+    }
+    .live-dashboard-head h4{margin:0;font-size:20px;color:var(--ink)}
+    .live-dashboard-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .live-dashboard-frame{
+      width:100%;height:760px;border:0;border-radius:18px;background:#eef2f5;display:block;
+    }
+    .excel-block{
+      margin:0 34px 34px;
+      display:grid;grid-template-columns:1.15fr .85fr;gap:22px;
+      background:var(--card);border:1px solid var(--line);border-radius:24px;
+      padding:22px;box-shadow:0 10px 30px rgba(16,34,43,.06);align-items:center;
+    }
+    .excel-preview{overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#fff}
+    .excel-preview img{width:100%;height:auto;display:block}
+    .excel-copy .showcase-kicker{margin-bottom:6px}
+    .excel-copy h4{font-size:24px;margin:0 0 10px}
+    .excel-copy p{color:var(--muted);margin:0 0 18px}
+    .excel-actions{display:flex;gap:10px;flex-wrap:wrap}
+    @media(max-width:900px){
+      .live-dashboard-frame{height:620px}
+      .excel-block{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .live-dashboard-shell,.excel-block{margin-left:16px;margin-right:16px}
+      .live-dashboard-frame{height:540px}
+    }
+
   </style>
 </head>
 <body>
@@ -250,35 +289,37 @@
           <div class="mini"><strong>Live</strong><span>Interactive dashboard opens as a dedicated page</span></div>
         </div>
       </div>
-      <div class="showcase-shell">
-        <div class="showcase-grid">
-          <div class="showcase-card">
-            <div class="showcase-image">
-              <img src="assets/dashboard_preview.png" alt="Interactive dashboard preview" />
-              <div class="showcase-badge">Interactive Web Dashboard</div>
-            </div>
-            <div class="showcase-body">
-              <div class="showcase-kicker">Web Experience</div>
-              <h4>Explore the interactive dashboard</h4>
-              <p>View the full geographic dashboard, track-level analysis, stage switching, regional drill-downs, and KPI views using synthetic demonstration data.</p>
-              <a class="showcase-link" href="dashboard/index.html" target="_blank" rel="noopener">View Interactive Dashboard ↗</a>
-            </div>
+      <div class="live-dashboard-shell">
+        <div class="live-dashboard-head">
+          <div>
+            <div class="showcase-kicker">Interactive Web Experience</div>
+            <h4>Explore the live dashboard</h4>
+            <p>Use the filters, geographic view, stage switching, regional drill-downs, and KPI views directly below.</p>
           </div>
+          <a class="showcase-link" href="dashboard/index.html" target="_blank" rel="noopener">Open Full Screen ↗</a>
+        </div>
 
-          <div class="showcase-card">
-            <div class="showcase-image">
-              <img src="assets/excel_dashboard_preview.png" alt="Excel dashboard preview" />
-              <div class="showcase-badge">Excel Reporting Version</div>
-            </div>
-            <div class="showcase-body">
-              <div class="showcase-kicker">Spreadsheet Experience</div>
-              <h4>Download the Excel dashboard</h4>
-              <p>Includes KPI summaries, track and monthly views, a calendar-style timeline, master data, and regional drill-down sheets built from the same synthetic dataset.</p>
-              <a class="showcase-link secondary" href="assets/Synthetic_Project_Outputs_Excel_Dashboard.xlsx" download>Download Excel Dashboard ↓</a>
-            </div>
+        <iframe
+          class="live-dashboard-frame"
+          src="dashboard/index.html"
+          title="Interactive Project Outputs Dashboard"
+          loading="lazy">
+        </iframe>
+      </div>
+
+      <div class="excel-block">
+        <div class="excel-preview">
+          <img src="assets/excel_dashboard_preview.png" alt="Excel dashboard preview" />
+        </div>
+
+        <div class="excel-copy">
+          <div class="showcase-kicker">Excel Reporting Version</div>
+          <h4>Prefer working in Excel?</h4>
+          <p>The same synthetic dataset is also available through an Excel-based reporting dashboard with KPI summaries, track and monthly views, a calendar-style timeline, master data, and regional drill-down sheets.</p>
+          <div class="excel-actions">
+            <a class="showcase-link secondary" href="assets/Synthetic_Project_Outputs_Excel_Dashboard.xlsx" download>Download Excel Dashboard ↓</a>
           </div>
         </div>
-        <div class="showcase-note">Synthetic data only · No confidential organizational information is included.</div>
       </div>
     </article>
 
