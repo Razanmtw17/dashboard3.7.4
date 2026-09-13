@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Razan Altowairqi | Data Analytics Portfolio</title>
+  <meta name="description" content="Data analytics, automation, and reporting portfolio by Razan Altowairqi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#10222b;
+      --ink-2:#21343d;
+      --muted:#687980;
+      --paper:#f7f4ee;
+      --paper-2:#efe9df;
+      --card:#fffdfa;
+      --line:#d9d2c6;
+      --bronze:#a87442;
+      --bronze-2:#c99b68;
+      --sage:#768f83;
+      --sage-soft:#dce4df;
+      --navy:#173847;
+      --white:#ffffff;
+      --shadow:0 18px 55px rgba(16,34,43,.10);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:"Manrope",sans-serif;
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(247,244,238,.88);
+      border-bottom:1px solid rgba(217,210,198,.8);
+    }
+    .nav-inner{
+      max-width:1240px;margin:auto;padding:16px 28px;
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+    }
+    .brand{font-weight:800;letter-spacing:.02em}
+    .brand span{color:var(--bronze)}
+    .nav-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+    .nav-links a:hover{color:var(--ink)}
+
+    .hero{
+      max-width:1240px;margin:auto;padding:86px 28px 56px;
+      display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center;
+    }
+    .eyebrow{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--bronze)}
+    h1{
+      font-family:"Playfair Display",serif;
+      font-size:clamp(48px,7vw,92px);
+      line-height:.96;margin:14px 0 22px;letter-spacing:-.025em;
+    }
+    .hero p{font-size:19px;color:var(--muted);max-width:760px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:13px 20px;border-radius:999px;border:1px solid var(--ink);
+      font-size:14px;font-weight:800;transition:.2s ease;
+    }
+    .btn.primary{background:var(--ink);color:var(--white)}
+    .btn:hover{transform:translateY(-2px)}
+
+    .hero-panel{
+      position:relative;min-height:500px;border-radius:32px;overflow:hidden;
+      background:linear-gradient(160deg,var(--navy),#0d242e 70%);
+      box-shadow:var(--shadow);padding:34px;color:white;
+    }
+    .hero-panel:before{
+      content:"";position:absolute;width:320px;height:320px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.12);right:-100px;top:-80px;
+      box-shadow:0 0 0 50px rgba(255,255,255,.03),0 0 0 105px rgba(255,255,255,.02);
+    }
+    .panel-kicker{font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:.16em}
+    .panel-title{font-family:"Playfair Display",serif;font-size:34px;line-height:1.08;margin:14px 0 32px;max-width:360px}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:absolute;left:34px;right:34px;bottom:34px}
+    .metric{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px}
+    .metric strong{display:block;font-size:25px}.metric span{font-size:12px;opacity:.72}
+
+    .section{max-width:1240px;margin:auto;padding:78px 28px}
+    .section-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:34px}
+    .section-head h2{font-family:"Playfair Display",serif;font-size:44px;line-height:1.05;margin:0}
+    .section-head p{margin:0;color:var(--muted);max-width:600px}
+
+    .about-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:22px}
+    .about-card,.tool-card,.project-card,.insight-card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 10px 30px rgba(16,34,43,.05)}
+    .about-card{padding:30px}
+    .about-card h3{margin:0 0 12px;font-size:18px}
+    .about-card p{color:var(--muted);margin:0}
+    .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .tool-card{padding:22px}
+    .tool-card b{display:block;margin-bottom:6px}.tool-card span{color:var(--muted);font-size:13px}
+
+    .project{
+      background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;
+      box-shadow:var(--shadow);margin-bottom:34px;
+    }
+    .project-top{padding:34px;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+    .project-no{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--bronze);text-transform:uppercase}
+    .project h3{font-family:"Playfair Display",serif;font-size:38px;margin:7px 0 14px;line-height:1.08}
+    .project p{color:var(--muted)}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+    .tag{font-size:12px;font-weight:700;padding:7px 10px;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+    .project-side{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .project-side .mini{padding:18px;border-radius:18px;background:var(--paper);border:1px solid var(--line)}
+    .mini strong{display:block;font-size:22px}.mini span{font-size:12px;color:var(--muted)}
+
+    .live-shell{background:#0f2530;padding:22px;border-top:1px solid #163541}
+    .live-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;color:#fff;margin:0 auto 14px;max-width:1160px}
+    .live-toolbar span{font-size:13px;opacity:.76}
+    .live-toolbar a{font-weight:800;font-size:13px;color:#f0c89f}
+    .live-frame{
+      display:block;width:100%;height:760px;border:0;border-radius:20px;background:white;
+      box-shadow:0 10px 40px rgba(0,0,0,.28);
+    }
+
+    .health-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;padding:0 34px 34px}
+    .chart-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:300px;position:relative;overflow:hidden}
+    .chart-card h4{margin:0 0 4px;font-size:16px}.chart-card p{margin:0;color:var(--muted);font-size:13px}
+    .budget-chart{height:210px;position:relative;margin-top:22px;border-left:1px solid #c9c2b7;border-bottom:1px solid #c9c2b7}
+    .budget-chart .line{position:absolute;left:4%;right:3%;height:3px;transform-origin:left center;border-radius:5px}
+    .line.budget{background:var(--sage);bottom:34%;transform:rotate(-12deg)}
+    .line.ncd{background:#b35e50;bottom:23%;transform:rotate(-23deg)}
+    .dot{position:absolute;width:12px;height:12px;border-radius:50%;right:4%}
+    .dot.budget{background:var(--sage);bottom:51%}.dot.ncd{background:#b35e50;bottom:65%}
+    .chart-label{position:absolute;right:8%;font-size:12px;font-weight:800}
+    .chart-label.budget{bottom:43%;color:var(--sage)}.chart-label.ncd{bottom:71%;color:#b35e50}
+    .big-stat{display:flex;align-items:end;gap:8px;margin-top:26px}.big-stat strong{font-size:56px;line-height:1;color:var(--bronze)}.big-stat span{font-size:14px;color:var(--muted);padding-bottom:7px}
+
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0 34px 34px}
+    .flow-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:128px;position:relative}
+    .flow-step:not(:last-child):after{content:"→";position:absolute;right:-11px;top:44%;font-size:20px;color:var(--bronze);z-index:2}
+    .flow-step b{display:block;font-size:14px;margin-bottom:8px}.flow-step span{font-size:12px;color:var(--muted)}
+
+    .contact{background:var(--ink);color:white;border-radius:32px;padding:42px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+    .contact h2{font-family:"Playfair Display",serif;font-size:42px;margin:0 0 8px}.contact p{opacity:.72;margin:0}
+    .contact-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .contact-links a{border:1px solid rgba(255,255,255,.25);padding:11px 16px;border-radius:999px;font-size:13px;font-weight:800}
+
+    .note{max-width:1240px;margin:0 auto 40px;padding:0 28px;color:var(--muted);font-size:12px;text-align:center}
+
+    @media (max-width:900px){
+      .hero,.project-top,.health-grid,.about-grid{grid-template-columns:1fr}
+      .hero-panel{min-height:420px}
+      .tools{grid-template-columns:1fr 1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .flow-step:after{display:none}
+      .live-frame{height:640px}
+      .contact{grid-template-columns:1fr}.contact-links{justify-content:flex-start}
+    }
+    @media (max-width:560px){
+      .nav-links{display:none}.hero{padding-top:54px}.tools,.project-side,.flow{grid-template-columns:1fr}
+      .live-frame{height:580px}.section{padding-top:56px;padding-bottom:56px}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">RAZAN <span>ALTOWAIRQI</span></div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#dashboard">Live Dashboard</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Data Analytics · Automation · Reporting</div>
+      <h1>Turning complex data into clear decisions.</h1>
+      <p>Selected work across dashboard development, data cleaning, analytical storytelling, Excel reporting, and Python automation.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#projects">View Selected Work</a>
+        <a class="btn" href="#dashboard">Open Live Dashboard</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="panel-kicker">Portfolio Snapshot</div>
+      <div class="panel-title">Practical analytics built for real reporting workflows.</div>
+      <div class="metric-grid">
+        <div class="metric"><strong>3</strong><span>Featured case studies</span></div>
+        <div class="metric"><strong>13</strong><span>Saudi regions covered</span></div>
+        <div class="metric"><strong>Python</strong><span>Automation & data processing</span></div>
+        <div class="metric"><strong>HTML + Excel</strong><span>Multi-format dashboards</span></div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="about">
+    <div class="section-head">
+      <h2>Profile</h2>
+      <p>I combine an Information Technology background with hands-on project reporting and analytics work—building tools that make large operational datasets easier to review, track, and act on.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>What I focus on</h3>
+        <p>Data preparation, dashboarding, reporting automation, operational analytics, and translating business requirements into practical tools.</p>
+      </div>
+      <div class="tools">
+        <div class="tool-card"><b>Python</b><span>Pandas · OpenPyXL · automation</span></div>
+        <div class="tool-card"><b>Excel</b><span>Dashboards · validation · reporting</span></div>
+        <div class="tool-card"><b>HTML / JS</b><span>Interactive dashboard development</span></div>
+        <div class="tool-card"><b>Data Analysis</b><span>Cleaning · trends · KPI logic</span></div>
+        <div class="tool-card"><b>Power BI</b><span>Visual analysis & reporting</span></div>
+        <div class="tool-card"><b>PMO Analytics</b><span>Tracking · progress · governance</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-head">
+      <h2>Selected Projects</h2>
+      <p>Three projects selected to show different strengths: interactive dashboarding, analytical research, and workflow automation.</p>
+    </div>
+
+    <article class="project" id="dashboard">
+      <div class="project-top">
+        <div>
+          <div class="project-no">Project 01 · Flagship</div>
+          <h3>Nationwide Project Outputs Dashboard</h3>
+          <p>Designed an interactive reporting solution to organize, classify, and visualize a large portfolio of project outputs across Saudi Arabia. The solution combines geographic analysis, timeline tracking, KPI views, regional drill-downs, and an Excel reporting version for users who prefer spreadsheet-based workflows.</p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">HTML</span><span class="tag">JavaScript</span><span class="tag">Excel</span><span class="tag">Data Cleaning</span>
+          </div>
+        </div>
+        <div class="project-side">
+          <div class="mini"><strong>13</strong><span>Regions represented</span></div>
+          <div class="mini"><strong>2</strong><span>Reporting experiences: Web + Excel</span></div>
+          <div class="mini"><strong>KPI</strong><span>Stage, track, entity & regional views</span></div>
+          <div class="mini"><strong>Live</strong><span>Interactive dashboard embedded below</span></div>
+        </div>
+      </div>
+      <div class="live-shell">
+        <div class="live-toolbar">
+          <span>Interactive demo · synthetic data only</span>
+          <a href="dashboard/index.html" target="_blank">Open full screen ↗</a>
+        </div>
+        <iframe class="live-frame" src="dashboard/index.html" title="Interactive Project Outputs Dashboard" loading="lazy"></iframe>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-top">
+        <div>
+          <div class="project-no">Project 02 · Analytical Research</div>
+          <h3>Healthcare Sustainability & Early Detection Analysis</h3>
+          <p>Analyzed Saudi healthcare open data alongside published research to examine the long-term financial burden of chronic disease and the potential economic value of earlier intervention. The project used historical budget trends and CAGR-based scenario projection—not machine-learning forecasting—to frame the sustainability challenge.</p>
+          <div class="tags">
+            <span class="tag">Open Data</span><span class="tag">Research Synthesis</span><span class="tag">CAGR Projection</span><span class="tag">Data Visualization</span><span class="tag">Strategic Insights</span>
+          </div>
+        </div>
+        <div class="project-side">
+          <div class="mini"><strong>~87%</strong><span>Scenario share of projected 2030 MoH budget potentially consumed by NCD burden</span></div>
+          <div class="mini"><strong>~SAR 1.17B</strong><span>Potential treatment savings in the analyzed scenario</span></div>
+          <div class="mini"><strong>Public</strong><span>Saudi Ministry of Health open data</span></div>
+          <div class="mini"><strong>Evidence</strong><span>Integrated published research estimates</span></div>
+        </div>
+      </div>
+      <div class="health-grid">
+        <div class="chart-card">
+          <h4>Budget vs. Chronic Disease Cost Burden</h4>
+          <p>Scenario comparison based on historical budget growth and published economic-burden estimates.</p>
+          <div class="budget-chart">
+            <div class="line budget"></div><div class="line ncd"></div>
+            <div class="dot budget"></div><div class="dot ncd"></div>
+            <div class="chart-label budget">Projected MoH budget</div>
+            <div class="chart-label ncd">NCD cost burden</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4>Why early detection matters</h4>
+          <p>Preventing or delaying diabetes progression can reduce downstream complications and the associated costs across multiple hospital departments.</p>
+          <div class="big-stat"><strong>87%</strong><span>potential budget pressure by 2030 in the analyzed scenario</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-top">
+        <div>
+          <div class="project-no">Project 03 · Automation</div>
+          <h3>Automated Review Reporting & PowerPoint Generation</h3>
+          <p>Built a Python workflow that reads structured review data from Excel, standardizes status values, consolidates reviewer comments, dynamically determines slide capacity based on text length, and generates presentation-ready PowerPoint reports from a predefined template.</p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">python-pptx</span><span class="tag">Excel</span><span class="tag">PowerPoint Automation</span>
+          </div>
+        </div>
+        <div class="project-side">
+          <div class="mini"><strong>Dynamic</strong><span>Slide splitting based on content length</span></div>
+          <div class="mini"><strong>Auto</strong><span>Formatting copied from the template</span></div>
+          <div class="mini"><strong>Clean</strong><span>Reviewer notes consolidated automatically</span></div>
+          <div class="mini"><strong>Repeatable</strong><span>Standardized reporting workflow</span></div>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="flow-step"><b>01 · Excel Input</b><span>Structured output names, statuses, and reviewer columns.</span></div>
+        <div class="flow-step"><b>02 · Clean & Normalize</b><span>Status values and text are standardized before processing.</span></div>
+        <div class="flow-step"><b>03 · Consolidate Notes</b><span>Meaningful reviewer comments are combined per output.</span></div>
+        <div class="flow-step"><b>04 · Layout Logic</b><span>Content length determines how records are split across slides.</span></div>
+        <div class="flow-step"><b>05 · PPT Output</b><span>Formatted presentation files are generated automatically.</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="contact">
+      <div>
+        <h2>Let’s connect.</h2>
+        <p>Riyadh, Saudi Arabia · Open to data analytics, reporting, PMO analytics, and technical roles.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:razan.m.tw@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/razan-altowairqi/" target="_blank">LinkedIn</a>
+        <a href="tel:+966505306149">Phone</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">All organizational examples in this portfolio use synthetic or anonymized data. Healthcare analysis references public/open data and published research.</div>
+</body>
+</html>
